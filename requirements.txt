@@ -9,3 +9,5 @@ tqdm
 #Chatbot
 speechRecognition
 PyAudio
+
+#Face Expression Recognition
