@@ -26,3 +26,4 @@ $ python3 setup.py build_ext --inplace
 - [ ] Pose Classifier 수정
 - [ ] Pose Data 수집
 - [ ] Face Expression Recognition 모델 병합
+- [ ] AWS 환경 설정, 업로드
