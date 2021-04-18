@@ -5,7 +5,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import chatbot.chatbot_dialog as chatbot
 
-messages={'roger':'r', 'pass':'p','chatbot':'c','brak':'b'}
+messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
 
 def recv_check(sock):
     while True:
