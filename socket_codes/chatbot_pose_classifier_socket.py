@@ -3,6 +3,8 @@ import numpy as np
 import socket
 from time import time
 
+import os, sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.common import CocoPart

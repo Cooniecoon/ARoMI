@@ -39,9 +39,6 @@ def ChatBot(header, url, payload):
             payload = chatbot.get_response(response, payload)
 
 
-
-
-
 cam = cv2.VideoCapture(0)
 ret_val, image = cam.read()
 

@@ -1,7 +1,9 @@
-import chatbot.chatbot_dialog as chatbot
 import speech_recognition as sr
-
 import socket
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import chatbot.chatbot_dialog as chatbot
 
 messages={'roger':'a', 'pass':'b','chatbot':'c'}
 
