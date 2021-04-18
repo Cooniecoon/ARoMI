@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import socket
+import json
 from time import time
 
 import os, sys
@@ -11,7 +12,8 @@ from tf_pose.common import CocoPart
 
 from classifier.model import import_classifier
 
-messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
+with open('message_code.json', 'r') as f:
+    messages = json.load(f)
 
 # socket 수신 버퍼를 읽어서 반환하는 함수
 def recvall(sock, count):
@@ -121,7 +123,7 @@ if __name__ == "__main__":
     sock_img.connect((TCP_IP, TCP_PORT_img))
 
     time_0=time()
-    THRESHOLD_TIME=3 #seconds
+    THRESHOLD_TIME=2 #seconds
     while True:
         image = recv_img(sock_img)
         original_img = image.copy()

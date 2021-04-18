@@ -2,9 +2,13 @@ import socket
 import cv2
 import numpy as np
 import time
+import json
 
-messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
+with open('message_code.json', 'r') as f:
+    messages = json.load(f)
 
+# messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
+print('message code : ',messages)
 def recv_check(sock):
     while True:
         msg=sock.recv(1).decode()

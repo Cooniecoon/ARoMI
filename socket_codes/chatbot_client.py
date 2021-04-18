@@ -1,11 +1,13 @@
 import speech_recognition as sr
 import socket
+import json
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import chatbot.chatbot_dialog as chatbot
 
-messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
+with open('message_code.json', 'r') as f:
+    messages = json.load(f)
 
 def recv_check(sock):
     while True:
@@ -70,5 +72,5 @@ while True:
         # print('eye contacted')
     elif msg.decode() == messages['pass']:
         continue
-    elif msg.decode() == messages['break']:
+    else:
         break
