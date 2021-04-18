@@ -50,6 +50,34 @@ def get_face_crop_img(L_EAR_coordinate,R_EAR_coordinate,x_padding,y_padding,dsiz
     face_box=cv2.resize(face_crop_gray, dsize, interpolation=cv2.INTER_AREA)
     return face_box
 
+def get_pose_vector(human):
+    x_data = np.zeros((18, 2), dtype=np.float16)
+    for i in range(CocoPart.Background.value):
+        if i in human.body_parts.keys():
+            body_part = human.body_parts[i]
+            x_data[i] = np.array([body_part.x, body_part.y], dtype=np.float16)
+    return x_data
+
+def get_human_box(human):
+    xmin=2
+    ymin=2
+    xmax=0
+    ymax=0
+    for i in range(CocoPart.Background.value):
+        if i in human.body_parts.keys():
+            body_part = human.body_parts[i]
+            vector = np.array([body_part.x, body_part.y], dtype=np.float16)
+            xmin=min(xmin,vector[0])
+            ymin=min(ymin,vector[1])
+            xmax=max(xmax,vector[0])
+            ymax=max(ymax,vector[1])
+    return [xmin,ymin,xmax,ymax]
+
+def get_area(xyxy):
+    h=xyxy[2]-xyxy[0]
+    w=xyxy[3]-xyxy[1]
+    return w*h
+
 BODY_PARTS={
     'Nose' : 0,
     'REye' : 14, 'LEye' : 15,
@@ -103,16 +131,20 @@ if __name__ == "__main__":
             resize_to_default=(w > 0 and h > 0),
             upsample_size=4.0,
         )
-        
+        # if human detected
         if len(humans)>0:
+            
+            # Filtering Only Big Person            
+            human_norm=0
+            for human in humans:
+                human_box=get_human_box(human)
+                human_size=get_area(human_box)
+                if human_size>human_norm:
+                    human_norm=human_size
+                    User=human
+            Body_Parts=User.body_parts
 
-            Body_Parts=humans[0].body_parts
-            x_data = np.zeros((18, 2), dtype=np.float16)
-
-            for i in range(CocoPart.Background.value):
-                if i in humans[0].body_parts.keys():
-                    body_part = humans[0].body_parts[i]
-                    x_data[i] = np.array([body_part.x, body_part.y], dtype=np.float16)
+            x_data = get_pose_vector(User)
 
             # print(x_data.reshape(1,x_data.shape[0], x_data.shape[1],1))
             preds = classifier.predict(
@@ -156,11 +188,15 @@ if __name__ == "__main__":
                 # print('chatbot off')
                 time_0=time()
                 pass
-        
+
+            image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
+            cv2.imshow("tf-pose-estimation result Filtered", image_single)
+
         sock_pose.send(messages['pass'].encode())
 
-        image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
-        cv2.imshow("tf-pose-estimation result", image)
+
+        image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+        cv2.imshow("tf-pose-estimation result All", image_all)
 
         if cv2.waitKey(1) == 27:
             break
