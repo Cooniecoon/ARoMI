@@ -11,3 +11,5 @@ speechRecognition
 PyAudio
 
 #Face Expression Recognition
+dlib
+face-recognition
