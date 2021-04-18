@@ -1,0 +1,2 @@
+model_checkpoint_path: "pose_classification.weight"
+all_model_checkpoint_paths: "pose_classification.weight"
