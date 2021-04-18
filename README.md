@@ -20,3 +20,9 @@ $ cd tf_pose/pafprocess
 $ swig -python -c++ pafprocess.i
 $ python3 setup.py build_ext --inplace
 ```
+
+---
+### TODO
+- [ ] Pose Classifier 수정
+- [ ] Pose Data 수집
+- [ ] Face Expression Recognition 모델 병합
