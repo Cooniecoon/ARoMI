@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import time
 
-messages={'roger':'a', 'pass':'b','chatbot':'c'}
+messages={'roger':'r', 'pass':'p','chatbot':'c','brak':'b'}
 
 def recv_check(sock):
     while True:
@@ -80,7 +80,8 @@ while True:
     if cv2.waitKey(1) == 27:
         break
 
-cv2.destroyAllWindows()
 s.close()
 ss.close()
 sss.close()
+cv2.destroyAllWindows()
+cam.release()

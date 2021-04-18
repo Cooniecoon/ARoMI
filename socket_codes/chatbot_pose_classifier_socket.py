@@ -11,7 +11,7 @@ from tf_pose.common import CocoPart
 
 from classifier.model import import_classifier
 
-messages={'roger':'a', 'pass':'b','chatbot':'c'}
+messages={'roger':'r', 'pass':'p','chatbot':'c','brak':'b'}
 
 # socket 수신 버퍼를 읽어서 반환하는 함수
 def recvall(sock, count):

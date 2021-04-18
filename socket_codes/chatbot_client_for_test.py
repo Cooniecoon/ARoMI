@@ -5,7 +5,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import chatbot.chatbot_dialog as chatbot
 
-messages={'roger':'a', 'pass':'b','chatbot':'c'}
+messages={'roger':'r', 'pass':'p','chatbot':'c','brak':'b'}
 
 def recv_check(sock):
     while True:
@@ -64,9 +64,11 @@ r = sr.Recognizer()
 m = sr.Microphone()
 
 while True:
-    msg = sock.recv(4)
+    msg = sock.recv(1)
     if msg.decode() == messages['chatbot']:
         # ChatBot(header, url, payload)
         print('eye contacted')
     elif msg.decode() == messages['pass']:
         continue
+    elif msg.decode() == messages['break']:
+        break
