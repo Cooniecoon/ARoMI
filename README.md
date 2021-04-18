@@ -23,7 +23,8 @@ $ python3 setup.py build_ext --inplace
 
 ---
 ### TODO
-- [ ] Pose Classifier 수정
-- [ ] Pose Data 수집
-- [ ] Face Expression Recognition 모델 병합
+- [ ] Pose Data 수집 : Input data shape (18,2) -> (1,36)
+- [ ] Pose Classifier 모델 수정
+- [ ] EyeContact Situation일 때 챗봇 호출 알고리즘 수정
+- [ ] Face Expression Recognition 모델 추가
 - [ ] AWS 환경 설정, 업로드
