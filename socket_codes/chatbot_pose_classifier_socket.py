@@ -12,7 +12,7 @@ from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.common import CocoPart
 
-from classifier.model import import_classifier
+from models.classifier.model import import_PoseClassifier
 
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
@@ -77,7 +77,7 @@ classifier_path = "C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classi
 
 if __name__ == "__main__":
 
-    classifier = import_classifier(output_shape=1)
+    classifier = import_PoseClassifier(output_shape=1)
     classifier.load_weights(classifier_path)
     
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
