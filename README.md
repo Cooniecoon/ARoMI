@@ -9,6 +9,7 @@
 - Python 3.6
 - CUDA 11.1
 - cuDNN 8.0.5
+- TensorFlow 2.4
 
 ```bash
 $ pip3 install -r requirments.txt
