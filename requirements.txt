@@ -1,13 +1,11 @@
-argparse
-dill
-fire
-matplotlib
-numba
-psutil
-pycocotools
-requests
-scikit-image
-scipy
+#Pose Estimation
+TensorFlow-gpu==2.4
+opencv-python==4.2.0
+scipy==1.4.1
 slidingwindow
+pycocotools
 tqdm
-git+https://github.com/ppwwyyxx/tensorpack.git
+
+#Chatbot
+speechRecognition
+PyAudio
