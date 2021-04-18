@@ -4,41 +4,13 @@ import numpy as np
 import time
 import json
 
+from socket_funcs import *
+
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
 # messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
 print('message code : ',messages)
-def recv_check(sock):
-    while True:
-        msg=sock.recv(1).decode()
-        if msg==messages['roger']:
-            break
-
-def a2b(a,b):
-    msg=a.recv(1)
-    if msg.decode()==messages['chatbot']:
-        b.send(msg)
-    else:
-        b.send(messages['pass'].encode())
-
-def send_image(img,sock,dsize):
-    img=cv2.resize(img, dsize, interpolation=cv2.INTER_AREA)
-
-    # send image to client
-    encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-    result, imgencode = cv2.imencode(".jpg", img, encode_param)
-    data = np.array(imgencode)
-    stringData = data.tobytes()
-
-    # String 형태로 변환한 이미지를 socket을 통해서 전송
-    data_len = len(stringData)
-
-    str_data_len = str(data_len).encode().ljust(16)
-    sock.send(str_data_len)
-    sock.send(stringData)
-    recv_check(sock)
-
 
 cam=cv2.VideoCapture(0)
 # cam.set(3,640)

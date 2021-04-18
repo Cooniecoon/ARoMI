@@ -1,7 +1,9 @@
 import speech_recognition as sr
 import socket
 import json
+from socket_funcs import *
 
+# import upper directory
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import chatbot.chatbot_dialog as chatbot
@@ -9,17 +11,6 @@ import chatbot.chatbot_dialog as chatbot
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
-def recv_check(sock):
-    while True:
-        print('recv_check')
-        msg=sock.recv(1).decode()
-        print(msg)
-        if msg==messages['roger']:
-            break
-
-def answer(sock):
-    msg=messages['roger']
-    sock.send(msg.encode())
 
 def ChatBot(header, url, payload):
 

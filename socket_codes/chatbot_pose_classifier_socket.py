@@ -4,6 +4,8 @@ import socket
 import json
 from time import time
 
+from socket_funcs import *
+
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from tf_pose.estimator import TfPoseEstimator
@@ -14,27 +16,6 @@ from classifier.model import import_classifier
 
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
-
-# socket 수신 버퍼를 읽어서 반환하는 함수
-def recvall(sock, count):
-    buf = b""
-    while count:
-        newbuf = sock.recv(count)
-        if not newbuf:
-            return None
-        buf += newbuf
-        count -= len(newbuf)
-    msg=messages['roger']
-    sock.send(msg.encode())
-    return buf
-
-def recv_img(sock):
-    newbuf = sock.recv(16)
-    length = newbuf.decode()
-    img_data = recvall(sock, int(length))
-    data = np.frombuffer(img_data, dtype="uint8")
-    image = cv2.imdecode(data, 1)
-    return image
 
 def get_face_crop_img(L_EAR_coordinate,R_EAR_coordinate,x_padding,y_padding,dsize):
     face_box_x=min(L_EAR_coordinate.x, R_EAR_coordinate.x)
