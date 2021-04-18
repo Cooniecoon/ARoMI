@@ -106,6 +106,7 @@ if __name__ == "__main__":
     time_0=time()
     THRESHOLD_TIME=2 #seconds
     while True:
+
         image = recv_img(sock_img)
         original_img = image.copy()
 
@@ -165,6 +166,7 @@ if __name__ == "__main__":
                     sock_pose.send(messages['chatbot'].encode())
                     # print('chatbot on')
                 
+
             elif ((not L_EAR_CHECK or not R_EAR_CHECK) and NOSE_CHECK):
                 # sock_pose.send(messages['pass'].encode())
                 # print('Look Elsewhere')
@@ -172,10 +174,10 @@ if __name__ == "__main__":
                 time_0=time()
                 pass
 
+            sock_pose.send(messages['pass'].encode())
             image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
             cv2.imshow("tf-pose-estimation result Filtered", image_single)
 
-        sock_pose.send(messages['pass'].encode())
 
 
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
