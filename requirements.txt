@@ -13,3 +13,8 @@ PyAudio
 #Face Expression Recognition
 dlib
 face-recognition
+
+#Robot
+numpy==1.19.5
+opencv-python==4.2.0
+PyQt5
