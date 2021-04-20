@@ -11,7 +11,7 @@ from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 from model import import_model
 
 class_id = {"sitting": 0, "standing": 1, "etc": 2}
-dataset_path = "C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\pose_data\\"
+dataset_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\pose_data\\"
 output_shape = len(class_id)
 
 x_data_list = []
@@ -49,7 +49,7 @@ print("Y_train: ", y_train.shape)
 print("X_train: ", x_train.shape)
 print("Y_tset: ", y_val.shape)
 print("X_test: ", x_val.shape)
-
+'''
 model = import_model(output_shape=1)
 
 print(model.summary())
@@ -79,3 +79,4 @@ history = model.fit(
 
 save_path = f"C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
 model.save_weights(save_path)
+'''
