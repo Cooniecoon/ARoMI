@@ -83,8 +83,16 @@ if __name__ == "__main__":
         )
 
         key_input=cv2.waitKey(42)
-
-        if (len(humans) > 0) and (key_input==ord(' ')):
+        
+        is_input_ranged = key_input in [ord('0'), ord('1'), ord('2')]
+        # if (len(humans) > 0) and (key_input==ord(' ')):
+        if (len(humans) > 0) and (is_input_ranged):
+            if key_input is ord('0'):
+                cls_id=0
+            elif key_input is ord('1'):
+                cls_id=1
+            elif key_input is ord('2'):
+                cls_id=2
 
             # Filtering Only Big Person            
             human_norm=0
@@ -97,11 +105,11 @@ if __name__ == "__main__":
             Body_Parts=User.body_parts
 
             x_data = get_pose_vector(User)
-            # x_data=np.append(x_data,class_id[pose_class])
-            print(x_data)
+            x_data=np.append(x_data,cls_id)
+
             dataset.append(x_data)
             count += 1
-            print('saved : ', count)
+            print('saved data : ', count, '    pose : ', list(class_id.keys())[cls_id])
 
         image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         cv2.imshow("tf-pose-estimation result", image)
@@ -113,16 +121,17 @@ if __name__ == "__main__":
             #     dataset, (1,dataset.shape[0], dataset.shape[1])
             # )
             print(f"dataset_{pose_class} : ", dataset.shape)
-            # for save train dataset
-            # np.save(
-            #     dataset_path + pose_class + f"\\x_train_{pose_class}.npy",
-            #     np.array(dataset),
-            # )
-            # for save test dataset
+
+            #! for save train dataset
             np.save(
-                dataset_path + f"\\testdata\\test_data.npy",
+                dataset_path + "\\train_dataset.npy",
                 np.array(dataset),
             )
+            #! for save test dataset
+            # np.save(
+            #     dataset_path + f"\\testdata\\test_data.npy",
+            #     np.array(dataset),
+            # )
             # y_dataset = np.full((dataset.shape[0],), pose_id)
             # print(y_dataset, y_dataset.shape)
             # np.save(
@@ -130,6 +139,7 @@ if __name__ == "__main__":
             #     y_dataset,
             # )
             break
+        
 
     cv2.destroyAllWindows()
     cam.release()

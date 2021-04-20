@@ -11,27 +11,19 @@ from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 from model import import_PoseClassifier
 
 class_id = {"sitting": 0, "standing": 1, "etc": 2}
-dataset_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\pose_data\\"
+dataset_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\pose_data\\train_dataset.npy"
 output_shape = len(class_id)
 
-x_data_list = []
-y_data = []
-for cls_, id_ in class_id.items():
-    x_train = np.load(dataset_path + cls_ + f"\\x_train_{cls_}.npy")
-    # print(x_train.shape)
-    x_data_list.append(x_train)
-    one_hot_yvec = np.zeros((len(class_id),))
-    one_hot_yvec[id_] = id_
+dataset = np.load(dataset_path)
 
-    for i in range(x_train.shape[0]):
-        y_data.append(one_hot_yvec)
+# y_data=np.reshape(dataset[:,-1],(dataset[:,-1].shape[0],1))
+cls_vector=dataset[:,-1]
+y_data=np.zeros((len(cls_vector),len(class_id)))
+x_data=dataset[:,:-1]
 
-x_data = x_data_list[0]
-# print(x_data.shape)
+for i,class_num in enumerate(cls_vector):
+    y_data[i][int(class_num)]=1
 
-for i in x_data_list[1:]:
-    # print("__", i.shape)
-    x_data = np.concatenate((x_data, i), axis=0)
 
 
 print("Y_SHAPE: ", np.array(y_data, dtype=int).shape)
@@ -77,5 +69,5 @@ history = model.fit(
     ],
 )
 
-save_path = f"C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
+save_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
 model.save_weights(save_path)

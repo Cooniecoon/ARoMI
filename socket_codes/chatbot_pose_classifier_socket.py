@@ -77,8 +77,8 @@ BODY_PARTS={
     'Background' : 18
 }
     
-class_id = {"sitting": 0, "standing": 1, "etc": 2}
-classifier_path = f"C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
+class_id = {"sitting": 0, "standing": 1, "stretching": 2}
+classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
 if __name__ == "__main__":
 
     classifier = import_PoseClassifier(output_shape=len(class_id))
@@ -141,8 +141,8 @@ if __name__ == "__main__":
                     ) #! pose classification
             pose=list(class_id.keys())[np.argmax(preds[0])] #! pose
             cv2.putText(image, text=pose, org=(30, 30), 
-                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, 
-                        color=(255, 255, 255), thickness=2)
+                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
+                        color=(255, 255, 0), thickness=2)
 
 
             L_EAR_CHECK=BODY_PARTS['LEar'] in Body_Parts.keys()
@@ -152,7 +152,12 @@ if __name__ == "__main__":
             
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
+
                 print('eye_contact_time : {0:.2f}'.format(dt))
+                cv2.putText(image, text="eye contacted, time : {0:.2f} sec".format(dt), org=(30, 70), 
+                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
+                        color=(0, 0, 0), thickness=2)
+
                 if dt > THRESHOLD_TIME:
                     time_0=time()
                     L_EAR_coordinate=Body_Parts[BODY_PARTS['LEar']]
@@ -163,7 +168,7 @@ if __name__ == "__main__":
                         x_padding=15, y_padding=10,
                         dsize=(48,48)
                         )
-
+                    
                     cv2.imshow("_", face_box) #! face_box : input of FER
 
                     # print('Eye Contact') #! Chatbot Litsening
