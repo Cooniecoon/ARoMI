@@ -13,7 +13,7 @@ from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.common import CocoPart
 
-from models.classifier.model import import_PoseClassifier
+from models.classifier.model import import_PoseClassifier,import_FacER
 
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
@@ -76,14 +76,20 @@ BODY_PARTS={
     'LHip' : 11, 'LKnee' : 12, 'LAnkle' : 13,
     'Background' : 18
 }
-    
+emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
-classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
+Pose_classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
+FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.h5"
+
+
 if __name__ == "__main__":
 
-    classifier = import_PoseClassifier(output_shape=len(class_id))
-    classifier.load_weights(classifier_path)
-    
+    Pose_classifier = import_PoseClassifier(output_shape=len(class_id))
+    Pose_classifier.load_weights(Pose_classifier_path)
+
+    FacER_model=import_FacER()
+    FacER_model.load_weights(FacER_model_path)
+
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
         get_graph_path("mobilenet_v2_large"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
@@ -136,7 +142,7 @@ if __name__ == "__main__":
 
 
             # print(x_data.reshape(1,x_data.shape[0], x_data.shape[1],1))
-            preds = classifier.predict(
+            preds = Pose_classifier.predict(
                         np.reshape(x_data,(1,36))
                     ) #! pose classification
             pose=list(class_id.keys())[np.argmax(preds[0])] #! pose
@@ -153,23 +159,36 @@ if __name__ == "__main__":
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
 
-                print('eye_contact_time : {0:.2f}'.format(dt))
+                # print('eye_contact_time : {0:.2f}'.format(dt))
                 cv2.putText(image, text="eye contacted, time : {0:.2f} sec".format(dt), org=(30, 70), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(0, 0, 0), thickness=2)
 
+
+                # get face image
+                L_EAR_coordinate=Body_Parts[BODY_PARTS['LEar']]
+                R_EAR_coordinate=Body_Parts[BODY_PARTS['REar']]
+                face_box=get_face_crop_img(
+                    L_EAR_coordinate, R_EAR_coordinate,
+                    x_padding=15, y_padding=10,
+                    dsize=(48,48)
+                    )
+
+                input_face_box=np.expand_dims(np.expand_dims(face_box, -1), 0)
+
+                prediction = FacER_model.predict(input_face_box)
+                maxindex = int(np.argmax(prediction))
+                emotion_current = emotion_id[maxindex] #! Face Emotion
+
+                face_box_forView=cv2.resize(face_box, (128,128), interpolation=cv2.INTER_AREA)
+
+                cv2.putText(face_box_forView, text=emotion_current, org=(15, 15), 
+                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
+                        color=(0, 255, 0), thickness=2)
+                cv2.imshow("Face Box", face_box_forView) #! face_box : input of FER
+
                 if dt > THRESHOLD_TIME:
                     time_0=time()
-                    L_EAR_coordinate=Body_Parts[BODY_PARTS['LEar']]
-                    R_EAR_coordinate=Body_Parts[BODY_PARTS['REar']]
-
-                    face_box=get_face_crop_img(
-                        L_EAR_coordinate, R_EAR_coordinate,
-                        x_padding=15, y_padding=10,
-                        dsize=(48,48)
-                        )
-                    
-                    cv2.imshow("_", face_box) #! face_box : input of FER
 
                     # print('Eye Contact') #! Chatbot Litsening
                     sock_pose.send(messages['chatbot'].encode())

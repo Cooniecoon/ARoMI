@@ -19,7 +19,7 @@ def import_PoseClassifier(output_shape):
         )
     return model
 
-def import_FER():
+def import_FacER():
     with tf.device("gpu:0"):
         model = Sequential()
 
