@@ -8,7 +8,7 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 
-from model import import_model
+from model import import_PoseClassifier
 
 class_id = {"sitting": 0, "standing": 1, "etc": 2}
 dataset_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\pose_data\\"
@@ -20,7 +20,7 @@ for cls_, id_ in class_id.items():
     x_train = np.load(dataset_path + cls_ + f"\\x_train_{cls_}.npy")
     # print(x_train.shape)
     x_data_list.append(x_train)
-    one_hot_yvec = np.empty((len(class_id),))
+    one_hot_yvec = np.zeros((len(class_id),))
     one_hot_yvec[id_] = id_
 
     for i in range(x_train.shape[0]):
@@ -44,13 +44,13 @@ x_train, x_val, y_train, y_val = (
     np.array(y_train),
     np.array(y_val),
 )
-
+print(y_val)
 print("Y_train: ", y_train.shape)
 print("X_train: ", x_train.shape)
 print("Y_tset: ", y_val.shape)
 print("X_test: ", x_val.shape)
-'''
-model = import_model(output_shape=1)
+
+model = import_PoseClassifier(output_shape=3)
 
 print(model.summary())
 
@@ -77,6 +77,5 @@ history = model.fit(
     ],
 )
 
-save_path = f"C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
+save_path = f"C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
 model.save_weights(save_path)
-'''

@@ -8,8 +8,8 @@ def import_PoseClassifier(output_shape):
     with tf.device("gpu:0"):
         model = Sequential(
             [
-                Flatten(input_shape=(18, 2, 1)),
-                Dense(36, activation="relu"),
+                # Flatten(input_shape=(18, 2, 1)),
+                Dense(36, activation="relu",input_shape=(36,)),
                 Dropout(0.2),
                 Dense(64, activation="relu"),
                 Dropout(0.2),

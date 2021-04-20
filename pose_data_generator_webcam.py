@@ -113,8 +113,14 @@ if __name__ == "__main__":
             #     dataset, (1,dataset.shape[0], dataset.shape[1])
             # )
             print(f"dataset_{pose_class} : ", dataset.shape)
+            # for save train dataset
+            # np.save(
+            #     dataset_path + pose_class + f"\\x_train_{pose_class}.npy",
+            #     np.array(dataset),
+            # )
+            # for save test dataset
             np.save(
-                dataset_path + pose_class + f"\\x_train_{pose_class}.npy",
+                dataset_path + f"\\testdata\\test_data.npy",
                 np.array(dataset),
             )
             # y_dataset = np.full((dataset.shape[0],), pose_id)

@@ -5,6 +5,7 @@ scipy==1.4.1
 slidingwindow
 pycocotools
 tqdm
+sklearn
 
 #Chatbot
 speechRecognition

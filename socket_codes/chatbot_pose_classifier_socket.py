@@ -3,11 +3,12 @@ import numpy as np
 import socket
 import json
 from time import time
-
+# import tensorflow as tf
 from socket_funcs import *
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.common import CocoPart
@@ -34,11 +35,14 @@ def get_face_crop_img(L_EAR_coordinate,R_EAR_coordinate,x_padding,y_padding,dsiz
     return face_box
 
 def get_pose_vector(human):
-    x_data = np.zeros((18, 2), dtype=np.float16)
-    for i in range(CocoPart.Background.value):
-        if i in human.body_parts.keys():
-            body_part = human.body_parts[i]
-            x_data[i] = np.array([body_part.x, body_part.y], dtype=np.float16)
+    x_data = np.zeros((36), dtype=np.float16)
+    for i in range(CocoPart.Background.value * 2):
+        if i//2 in human.body_parts.keys():
+            body_part = human.body_parts[i//2]
+            if i%2==0:
+                x_data[i]=body_part.x
+            elif i%2==1:
+                x_data[i]=body_part.y
     return x_data
 
 def get_human_box(human):
@@ -73,11 +77,11 @@ BODY_PARTS={
     'Background' : 18
 }
     
-classifier_path = "C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classifier\\model\\pose_classification.weight"
-
+class_id = {"sitting": 0, "standing": 1, "etc": 2}
+classifier_path = f"C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification_{len(class_id)}_cls.weight"
 if __name__ == "__main__":
 
-    classifier = import_PoseClassifier(output_shape=1)
+    classifier = import_PoseClassifier(output_shape=len(class_id))
     classifier.load_weights(classifier_path)
     
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
@@ -130,16 +134,16 @@ if __name__ == "__main__":
 
             x_data = get_pose_vector(User)
 
+
             # print(x_data.reshape(1,x_data.shape[0], x_data.shape[1],1))
             preds = classifier.predict(
-                        x_data.reshape(1,x_data.shape[0], x_data.shape[1],1)
+                        np.reshape(x_data,(1,36))
                     ) #! pose classification
+            pose=list(class_id.keys())[np.argmax(preds[0])] #! pose
+            cv2.putText(image, text=pose, org=(30, 30), 
+                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, 
+                        color=(255, 255, 255), thickness=2)
 
-            if preds > 0.9:
-                result = 'standing'
-            else:
-                result = 'sitting'
-            # print('pose : ',result)
 
             L_EAR_CHECK=BODY_PARTS['LEar'] in Body_Parts.keys()
             R_EAR_CHECK=BODY_PARTS['REar'] in Body_Parts.keys()
@@ -177,8 +181,6 @@ if __name__ == "__main__":
             sock_pose.send(messages['pass'].encode())
             image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
             cv2.imshow("tf-pose-estimation result Filtered", image_single)
-
-
 
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         cv2.imshow("tf-pose-estimation result All", image_all)
