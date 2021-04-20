@@ -82,7 +82,7 @@ if __name__ == "__main__":
     
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
-        get_graph_path("mobilenet_thin"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
+        get_graph_path("mobilenet_v2_large"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
         target_size=(w, h),
         trt_bool=False,
     )
