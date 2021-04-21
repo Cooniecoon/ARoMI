@@ -31,6 +31,9 @@ $ python3 setup.py build_ext --inplace
 - [ ] Face Expression Recognition 모델 학습
 - [ ] Camera Calibration
 - [ ] 챗봇 호출 알고리즘 수정
-- [ ] Chatbot, TTS Merge
-- [ ] Robot UI, Motor Motion Code Merge
+- [ ] Robot UI Code 통신 연결
+- [ ] Motor Motion Code 통신 연결
+- [ ] Chatbot, TTS 통신 연결
+- [ ] TTS Custom data 생성
+- [ ] TTS Custom data 학습
 - [ ] AWS 환경 설정, 업로드
