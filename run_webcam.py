@@ -18,7 +18,7 @@ logger.addHandler(ch)
 
 fps_time = 0
 
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
 ret_val, image = cam.read()
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model",
         type=str,
-        default="mobilenet_thin",
+        default="mobilenet_v2_large",
         help="cmu / mobilenet_thin / mobilenet_v2_large / mobilenet_v2_small",
     )
     parser.add_argument(
