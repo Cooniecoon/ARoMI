@@ -79,17 +79,17 @@ BODY_PARTS={
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
 Pose_classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
-FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNetV2_4.weight"
-
+# FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
+FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.weight"
 
 if __name__ == "__main__":
 
     Pose_classifier = import_PoseClassifier(output_shape=len(class_id))
     Pose_classifier.load_weights(Pose_classifier_path)
-
+    print('\n\nPose_classifier Loaded')
     FacER_model=import_FacER()
     FacER_model.load_weights(FacER_model_path)
-
+    print('\n\nFacER Loaded')
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
         get_graph_path("mobilenet_v2_large"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
@@ -97,7 +97,7 @@ if __name__ == "__main__":
         trt_bool=False,
     )
     
-    print('\n\nconnect server\n\n')
+    print('\n\nconnect server')
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
     TCP_IP = "127.0.0.1"
@@ -176,7 +176,7 @@ if __name__ == "__main__":
                     x_padding=15, y_padding=10,
                     dsize=(48,48)
                     )
-                face_box=tf.image.grayscale_to_rgb(face_box, name=None)
+                # face_box=tf.image.grayscale_to_rgb(face_box, name=None)
                 input_face_box=np.expand_dims(np.expand_dims(face_box, -1), 0)
 
                 prediction = FacER_model.predict(input_face_box)
