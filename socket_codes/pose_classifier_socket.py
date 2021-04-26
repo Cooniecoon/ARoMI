@@ -3,7 +3,7 @@ import numpy as np
 import socket
 import json
 from time import time
-# import tensorflow as tf
+import tensorflow as tf
 from socket_funcs import *
 
 import os, sys
@@ -79,7 +79,7 @@ BODY_PARTS={
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
 Pose_classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
-FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.h5"
+FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNetV2.weight"
 
 
 if __name__ == "__main__":
@@ -96,7 +96,9 @@ if __name__ == "__main__":
         target_size=(w, h),
         trt_bool=False,
     )
-       
+    
+    print('\n\nconnect server\n\n')
+
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
     TCP_IP = "127.0.0.1"
     TCP_PORT_pose = 4242
@@ -115,6 +117,7 @@ if __name__ == "__main__":
 
     time_0=time()
     THRESHOLD_TIME=2 #seconds
+    print('\n\nstart\n\n')
     while True:
 
         image = recv_img(sock_img)
@@ -173,7 +176,7 @@ if __name__ == "__main__":
                     x_padding=15, y_padding=10,
                     dsize=(48,48)
                     )
-
+                face_box=tf.image.grayscale_to_rgb(face_box, name=None)
                 input_face_box=np.expand_dims(np.expand_dims(face_box, -1), 0)
 
                 prediction = FacER_model.predict(input_face_box)

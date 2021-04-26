@@ -32,5 +32,6 @@ def import_FacER():
         global_average_layer,
         prediction_layer
         ])
-        model.load_weights('.\model\MobileNetV2_1.pb')
+        
+
     return model
