@@ -21,21 +21,16 @@ def import_PoseClassifier(output_shape):
 
 def import_FacER():
     with tf.device("gpu:0"):
-        model = Sequential()
+        base_model = tf.keras.applications.MobileNetV2(input_shape=(96,96,3),include_top=False)
 
-        model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
-        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(0.25))
+        global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 
-        model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(0.25))
+        prediction_layer = tf.keras.layers.Dense(3, activation='softmax')
 
-        model.add(Flatten())
-        model.add(Dense(1024, activation='relu'))
-        model.add(Dropout(0.5))
-        model.add(Dense(3, activation='softmax'))
+        model = tf.keras.Sequential([
+        base_model,
+        global_average_layer,
+        prediction_layer
+        ])
+        model.load_weights('.\model\MobileNetV2_1.pb')
     return model
