@@ -14,7 +14,7 @@ _,img=cam.read()
 
 # 수신에 사용될 내 ip와 내 port번호
 TCP_IP = "192.168.35.192"
-TCP_PORT = 6666
+TCP_PORT = 1997
 
 # TCP소켓 열고 수신 대기
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
