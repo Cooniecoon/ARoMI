@@ -120,7 +120,7 @@ if __name__ == "__main__":
     print('\n\nstart\n\n')
     while True:
 
-        image = recv_img(sock_img)
+        image = recv_img_from(sock_img)
         original_img = image.copy()
 
         humans = e.inference(

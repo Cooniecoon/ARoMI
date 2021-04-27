@@ -49,7 +49,7 @@ print("image connected")
 while True:
     _,img=cam.read()
 
-    send_image(img,img_client,dsize=(432, 368))
+    send_image_to(img,img_client,dsize=(432, 368))
 
     a2b(pose_client,chatbot_client)
 

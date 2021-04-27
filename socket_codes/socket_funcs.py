@@ -23,7 +23,7 @@ def recvall(sock, count):
     sock.send(msg.encode())
     return buf
 
-def send_image(img,sock,dsize):
+def send_image_to(img,sock,dsize):
     img=cv2.resize(img, dsize, interpolation=cv2.INTER_AREA)
 
     # send image to client
@@ -40,7 +40,7 @@ def send_image(img,sock,dsize):
     sock.send(stringData)
     recv_check(sock)
 
-def recv_img(sock):
+def recv_img_from(sock):
     newbuf = sock.recv(16)
     length = newbuf.decode()
     img_data = recvall(sock, int(length))
