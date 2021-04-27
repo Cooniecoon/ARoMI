@@ -2,6 +2,8 @@ import socket
 import cv2
 import numpy as np
 import time
+import matplotlib.pyplot as plt
+from collections import deque
 
 from socket_funcs import *
 
@@ -20,6 +22,14 @@ TCP_PORT = 6666
 # 송신을 위한 socket 준비
 aws_server = socket.socket()
 aws_server.connect((TCP_IP, TCP_PORT))
+a1 = deque([0]*200)
+ax = plt.axes(xlim=(0, 30), ylim=(0, 50))
+
+
+line, = plt.plot(a1)
+plt.ion()
+plt.ylim([0,50])
+plt.show()
 
 while True:
     start = time.time()
@@ -35,6 +45,14 @@ while True:
                         color=(255, 255, 0), thickness=2)
 
     cv2.imshow("Received from client", img_recv)
+
+    # Plot fps
+    fps=1 / dt
+    # a1.appendleft(fps)
+    # datatoplot = a1.pop()
+    # line.set_ydata(a1)
+    # plt.draw()
+    # plt.pause(0.0001) 
     if cv2.waitKey(1) == 27:
         break
 cv2.destroyAllWindows()
