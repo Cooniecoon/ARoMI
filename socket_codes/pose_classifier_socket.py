@@ -79,8 +79,8 @@ BODY_PARTS={
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
 Pose_classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
-# FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
-FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.weight"
+FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
+# FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.weight"
 
 if __name__ == "__main__":
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     print('\n\nFacER Loaded')
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
-        get_graph_path("mobilenet_v2_large"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
+        get_graph_path("mobilenet_thin"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
         target_size=(w, h),
         trt_bool=False,
     )
