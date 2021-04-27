@@ -2,6 +2,7 @@ import socket
 import cv2
 import numpy as np
 import time
+
 from socket_funcs import *
 
 with open('message_code.json', 'r') as f:
@@ -19,7 +20,7 @@ TCP_PORT = 6666
 # 송신을 위한 socket 준비
 aws_server = socket.socket()
 aws_server.connect((TCP_IP, TCP_PORT))
-
+a=[]
 while True:
     start = time.time()
     _,img=cam.read()
@@ -37,4 +38,4 @@ while True:
     if cv2.waitKey(1) == 27:
         break
 cv2.destroyAllWindows()
-s.close()
+aws_server.close()
