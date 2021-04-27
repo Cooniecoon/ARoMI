@@ -20,7 +20,7 @@ while True:
     
     image = recv_img(cam_server)
     
-    cv2.imshow("CLIENT", image)
+    cv2.imshow("Received from server", image)
     send_image(image,cam_server,dsize=(640, 480))
     dt = time.time() - start
     print("fps : {:.2f}".format(1 / dt))

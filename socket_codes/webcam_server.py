@@ -28,7 +28,7 @@ while True:
     _,img=cam.read()
 
     send_image(img,aws_client,dsize=(432, 368))
-
+    cv2.imshow("Original", img)
 
     img_recv=recv_img(aws_client)
     dt = time.time() - start
@@ -36,7 +36,7 @@ while True:
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(255, 255, 0), thickness=2)
 
-    cv2.imshow("SERVER", img_recv)
+    cv2.imshow("Received from client", img_recv)
     if cv2.waitKey(1) == 27:
         break
 cv2.destroyAllWindows()
