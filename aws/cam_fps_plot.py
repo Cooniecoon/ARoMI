@@ -10,18 +10,19 @@ from socket_funcs import *
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
-cam=cv2.VideoCapture(0)
+cam=cv2.VideoCapture(1)
 # cam.set(3,640)
 # cam.set(4,480)
 _,img=cam.read()
-
+print(_,'  cam on')
 # 연결할 서버(수신단)의 ip주소와 port번호
-TCP_IP = "ec2-13-209-8-64.ap-northeast-2.compute.amazonaws.com"
-TCP_PORT = 6666
+TCP_IP = "ec2-13-125-253-168.ap-northeast-2.compute.amazonaws.com"
+TCP_PORT = 1997
 
 # 송신을 위한 socket 준비
 aws_server = socket.socket()
 aws_server.connect((TCP_IP, TCP_PORT))
+
 a1 = deque([0]*200)
 ax = plt.axes(xlim=(0, 30), ylim=(0, 50))
 
