@@ -36,23 +36,28 @@ while True:
     _,img=cam.read()
 
     send_image_to(img,aws_server,dsize=(432, 368))
-    cv2.imshow("Original", img)
-
-    img_recv=recv_img_from(aws_server)
     dt = time.time() - start
-    cv2.putText(img_recv, text="fps : {:.2f}".format(1 / dt), org=(30, 30), 
+    cv2.putText(img, text="fps : {:.2f}".format(1 / dt), org=(30, 30), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(255, 255, 0), thickness=2)
+    cv2.imshow("Original", img)
 
-    cv2.imshow("Received from client", img_recv)
+    
+    # img_recv=recv_img_from(aws_server)
+    # dt = time.time() - start
+    # cv2.putText(img_recv, text="fps : {:.2f}".format(1 / dt), org=(30, 30), 
+    #                     fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
+    #                     color=(255, 255, 0), thickness=2)
+
+    # cv2.imshow("Received from client", img_recv)
 
     # Plot fps
     fps=1 / dt
-    # a1.appendleft(fps)
-    # datatoplot = a1.pop()
-    # line.set_ydata(a1)
-    # plt.draw()
-    # plt.pause(0.0001) 
+    a1.appendleft(fps)
+    datatoplot = a1.pop()
+    line.set_ydata(a1)
+    plt.draw()
+    plt.pause(0.0001) 
     if cv2.waitKey(1) == 27:
         break
 cv2.destroyAllWindows()

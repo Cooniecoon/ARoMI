@@ -34,7 +34,7 @@ while True:
     
     image = recv_img_from(cam_client)
     
-    send_image_to(image,cam_client,dsize=(300, 300))
+    # send_image_to(image,cam_client,dsize=(300, 300))
     dt = time.time() - start
     print("fps : {:.2f}".format(1 / dt))
 
