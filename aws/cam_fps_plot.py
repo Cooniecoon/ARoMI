@@ -10,7 +10,7 @@ from socket_funcs import *
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
-cam=cv2.VideoCapture(1)
+cam=cv2.VideoCapture(0)
 # cam.set(3,640)
 # cam.set(4,480)
 _,img=cam.read()
