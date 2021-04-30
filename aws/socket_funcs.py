@@ -60,4 +60,3 @@ def a2b(a,b):
         b.send(msg)
     else:
         b.send(messages['pass'].encode())
-
