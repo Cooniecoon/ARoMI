@@ -1,2 +1,2 @@
-./models/classifier/face_data/
-./models/classifier/pose_data/
+models/classifier/face_data/
+models/classifier/pose_data/
