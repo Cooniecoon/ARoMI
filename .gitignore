@@ -1,2 +1,6 @@
-models/classifier/face_data/
-models/classifier/pose_data/
+models/classifier/face_data/happy
+models/classifier/face_data/neutral
+models/classifier/face_data/sad
+models/classifier/pose_data/etc
+models/classifier/pose_data/sitting
+models/classifier/pose_data/standing
