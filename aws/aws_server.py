@@ -5,8 +5,8 @@ from socket_funcs import *
 
 
 # 수신에 사용될 내 ip와 내 port번호
-TCP_IP = "ec2-13-125-253-168.ap-northeast-2.compute.amazonaws.com"
-TCP_PORT = 1997
+TCP_IP = "ec2-13-209-247-151.ap-northeast-2.compute.amazonaws.com"
+TCP_PORT = 6666
 
 # TCP소켓 열고 수신 대기
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

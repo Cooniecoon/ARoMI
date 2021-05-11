@@ -16,8 +16,9 @@ cam=cv2.VideoCapture(0)
 _,img=cam.read()
 print(_,'  cam on')
 # 연결할 서버(수신단)의 ip주소와 port번호
-TCP_IP = "ec2-13-125-253-168.ap-northeast-2.compute.amazonaws.com"
-TCP_PORT = 1997
+TCP_IP = "ec2-13-209-247-151.ap-northeast-2.compute.amazonaws.com"
+
+TCP_PORT = 6666
 
 # 송신을 위한 socket 준비
 aws_server = socket.socket()
