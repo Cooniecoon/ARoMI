@@ -7,7 +7,7 @@
 사용자의 자세, 표정을 인식한 후 이를 기반으로 대화 유도
 
 ### Environment / Dependencies
-
+- Windows
 - Python 3.6
 - CUDA 11.1
 - cuDNN 8.0.5
