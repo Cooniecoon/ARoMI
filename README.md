@@ -29,9 +29,9 @@ $ python3 setup.py build_ext --inplace
 - [x] ~~Pose Classifier 모델 수정~~
 - [x] ~~Face Expression Recognition 모델 추가~~
 - [x] ~~Face Expression Data 수집 -> 드라마, 영화 감정연기 캡쳐~~
-- [ ] 네트워크 구조 변경 : AWS-> main server
+- [x] ~~네트워크 구조 변경 : AWS-> main server~~
 - [ ] Face Expression Recognition 모델 학습
-- [ ] Camera Calibration -> 다시 확인
+- [x] ~~Camera Calibration -> 다시 확인~~
 - [ ] 챗봇 호출 알고리즘 수정
 - [ ] Robot UI Code 통신 연결
 - [ ] Motor Motion Code 통신 연결
