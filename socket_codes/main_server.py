@@ -12,11 +12,14 @@ with open('message_code.json', 'r') as f:
 # messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
 print('message code : ',messages)
 
-cam=cv2.VideoCapture(0)
-# cam.set(3,640)
-# cam.set(4,480)
-_,img=cam.read()
-
+# camera
+TCP_IP = "127.0.0.1"
+TCP_PORT_img = 5555
+ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ssss.bind((TCP_IP, TCP_PORT_img))
+ssss.listen(True)
+cam_client, addr = ssss.accept()
+print("camera connected")
 
 # chatbot
 TCP_IP = "127.0.0.1"
@@ -47,17 +50,15 @@ print("image connected")
 
 
 while True:
-    _,img=cam.read()
-
+    # 이미지 받아서 보내주기
+    # cam -> img
+    img=recv_img_from(cam_client)
     send_image_to(img,img_client,dsize=(432, 368))
 
     a2b(pose_client,chatbot_client)
 
-    if cv2.waitKey(1) == 27:
-        break
 
 s.close()
 ss.close()
 sss.close()
-cv2.destroyAllWindows()
-cam.release()
+ssss.close()
