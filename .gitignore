@@ -5,3 +5,4 @@ models/classifier/pose_data/etc
 models/classifier/pose_data/sitting
 models/classifier/pose_data/standing
 aws/capstone_p2xlarge.pem
+aws/capstone_p2xlarge.ppk
