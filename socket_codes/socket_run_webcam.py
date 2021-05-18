@@ -123,7 +123,7 @@ if __name__ == "__main__":
             Body_Parts=User.body_parts
 
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
-
+        send_image_to(image_all,cam_client,dsize=(432, 368))
 
         # cv2.imshow("tf-pose-estimation result All", image_all)
 

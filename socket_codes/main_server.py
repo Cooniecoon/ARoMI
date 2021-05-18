@@ -13,7 +13,7 @@ with open('message_code.json', 'r') as f:
 print('message code : ',messages)
 
 # camera
-TCP_IP = "127.0.0.1"
+TCP_IP = "ec2-3-36-119-109.ap-northeast-2.compute.amazonaws.com"
 TCP_PORT_img = 5555
 ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ssss.bind((TCP_IP, TCP_PORT_img))
@@ -22,7 +22,6 @@ cam_client, addr = ssss.accept()
 print("camera connected")
 
 # chatbot
-TCP_IP = "127.0.0.1"
 TCP_PORT_chatbot = 2424
 sss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sss.bind((TCP_IP, TCP_PORT_chatbot))
@@ -31,7 +30,6 @@ chatbot_client, addr = sss.accept()
 print("chatbot connected")
 
 # pose
-TCP_IP = "127.0.0.1"
 TCP_PORT_pose = 4242
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_pose))
@@ -40,7 +38,6 @@ pose_client, addr = s.accept()
 print("pose_classifier connected")
 
 # image
-TCP_IP = "127.0.0.1"
 TCP_PORT_img = 6666
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ss.bind((TCP_IP, TCP_PORT_img))
@@ -56,6 +53,9 @@ while True:
     send_image_to(img,img_client,dsize=(432, 368))
 
     a2b(pose_client,chatbot_client)
+
+    # img=recv_img_from(pose_client)
+    # send_image_to(img,cam_client,dsize=(432, 368))
 
 
 s.close()

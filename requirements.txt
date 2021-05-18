@@ -6,7 +6,6 @@ slidingwindow
 pycocotools
 tqdm
 sklearn
-tf-slim
 
 #Chatbot
 speechRecognition

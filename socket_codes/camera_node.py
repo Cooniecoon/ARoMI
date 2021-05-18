@@ -27,7 +27,7 @@ while True:
     send_image_to(img,sock_cam,dsize=(432, 368))
     print('image send')
 
-    img=recv_img_from(sock_cam)
+    # img=recv_img_from(sock_cam)
     cv2.imshow("tf-pose-estimation result All", img)
     if cv2.waitKey(1)==27:
         break

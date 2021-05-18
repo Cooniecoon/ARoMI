@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import socket
 import json
-from time import time
+from time import time, sleep
 import tensorflow as tf
 from socket_funcs import *
 
@@ -78,9 +78,9 @@ BODY_PARTS={
 }
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
-Pose_classifier_path = "C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\pose_classification.weight"
+Pose_classifier_path = "/home/ubuntu/ARoMI/models/classifier/model/pose_classification.weight"
 # FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
-FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\FacER.weight"
+FacER_model_path="/home/ubuntu/ARoMI/models/classifier/model/FacER.weight"
 
 if __name__ == "__main__":
 
@@ -100,15 +100,16 @@ if __name__ == "__main__":
     print('\n\nconnect server')
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
-    TCP_IP = "127.0.0.1"
+    TCP_IP = "ec2-3-36-119-109.ap-northeast-2.compute.amazonaws.com"
     TCP_PORT_pose = 4242
 
     # 송신을 위한 socket 준비
     sock_pose = socket.socket()
     sock_pose.connect((TCP_IP, TCP_PORT_pose))
 
+    sleep(1)
+
     # 연결할 서버(수신단)의 ip주소와 port번호 : image
-    TCP_IP = "127.0.0.1"
     TCP_PORT_img = 6666
 
     # 송신을 위한 socket 준비
@@ -188,7 +189,7 @@ if __name__ == "__main__":
                 cv2.putText(face_box_forView, text=emotion_current, org=(15, 15), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(0, 255, 0), thickness=2)
-                cv2.imshow("Face Box", face_box_forView) #! face_box : input of FER
+                # cv2.imshow("Face Box", face_box_forView) #! face_box : input of FER
 
                 if dt > THRESHOLD_TIME:
                     time_0=time()
@@ -207,12 +208,13 @@ if __name__ == "__main__":
 
             sock_pose.send(messages['pass'].encode())
             image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
-            cv2.imshow("tf-pose-estimation result Filtered", image_single)
+            # cv2.imshow("tf-pose-estimation result Filtered", image_single)
 
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
-        cv2.imshow("tf-pose-estimation result All", image_all)
+        # send_image_to(image_all,sock_pose,dsize=(432, 368))
+        # cv2.imshow("tf-pose-estimation result All", image_all)
 
-        if cv2.waitKey(1) == 27:
-            break
+        # if cv2.waitKey(1) == 27:
+        #     break
 
     cv2.destroyAllWindows()
