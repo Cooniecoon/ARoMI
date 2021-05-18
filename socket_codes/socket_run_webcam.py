@@ -79,13 +79,7 @@ BODY_PARTS={
 
 if __name__ == "__main__":
     # camera
-    TCP_IP = "ec2-3-36-51-16.ap-northeast-2.compute.amazonaws.com"
-    TCP_PORT_img = 5555
-    ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ssss.bind((TCP_IP, TCP_PORT_img))
-    ssss.listen(True)
-    cam_client, addr = ssss.accept()
-    print("camera connected")
+    
 
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
@@ -96,9 +90,17 @@ if __name__ == "__main__":
 
     time_0=time()
 
+    print('model loaded')
+    TCP_IP = "ec2-3-36-119-109.ap-northeast-2.compute.amazonaws.com"
+    TCP_PORT_img = 5555
+    ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ssss.bind((TCP_IP, TCP_PORT_img))
+    ssss.listen(True)
+    cam_client, addr = ssss.accept()
+    print("camera connected")
     print('\n\nstart\n\n')
     while True:
-
+        print('receive image')
         image = recv_img_from(cam_client)
         original_img = image.copy()
 
@@ -125,7 +127,7 @@ if __name__ == "__main__":
 
         # cv2.imshow("tf-pose-estimation result All", image_all)
 
-        if cv2.waitKey(1) == 27:
-            break
+        # if cv2.waitKey(1) == 27:
+        #     break
 
     cv2.destroyAllWindows()
