@@ -13,7 +13,8 @@ print('message code : ',messages)
 cam=cv2.VideoCapture(0)
 # cam.set(3,640)
 # cam.set(4,480)
-TCP_IP = "ec2-13-125-181-42.ap-northeast-2.compute.amazonaws.com"
+with open('AWS_IP.txt', 'r') as f:
+    TCP_IP = f.readlines()
 TCP_PORT_img = 5555
 
 # 송신을 위한 socket 준비

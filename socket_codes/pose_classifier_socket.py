@@ -18,6 +18,9 @@ from models.classifier.model import import_PoseClassifier,import_FacER
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
+with open('AWS_IP.txt', 'r') as f:
+    TCP_IP = f.readlines()
+
 def get_face_crop_img(L_EAR_coordinate,R_EAR_coordinate,x_padding,y_padding,dsize):
     face_box_x=min(L_EAR_coordinate.x, R_EAR_coordinate.x)
     face_box_w=abs(L_EAR_coordinate.x-R_EAR_coordinate.x)
@@ -100,7 +103,6 @@ if __name__ == "__main__":
     print('\n\nconnect server')
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
-    TCP_IP = "ec2-13-125-181-42.ap-northeast-2.compute.amazonaws.com"
     TCP_PORT_pose = 4242
 
     # 송신을 위한 socket 준비
