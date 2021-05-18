@@ -13,7 +13,7 @@ print('message code : ',messages)
 cam=cv2.VideoCapture(0)
 # cam.set(3,640)
 # cam.set(4,480)
-TCP_IP = "127.0.0.1"
+TCP_IP = "ec2-3-36-51-16.ap-northeast-2.compute.amazonaws.com"
 TCP_PORT_img = 5555
 
 # 송신을 위한 socket 준비
@@ -24,5 +24,9 @@ while True:
     _,img=cam.read()
     cv2.imshow('cam',img)
     send_image_to(img,sock_cam,dsize=(432, 368))
+
+
+    img=recv_img_from(sock_cam)
+    cv2.imshow("tf-pose-estimation result All", img)
     if cv2.waitKey(1)==27:
         break
