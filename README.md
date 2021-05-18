@@ -39,4 +39,4 @@ $ python3 setup.py build_ext --inplace
 - [ ] Chatbot, TTS 통신 연결
 - [ ] TTS Custom data 생성
 - [ ] TTS Custom data 학습
-- [ ] AWS 환경 설정, 업로드
+- [x] ~~AWS 환경 설정, 업로드~~
