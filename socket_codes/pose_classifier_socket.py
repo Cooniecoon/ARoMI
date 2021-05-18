@@ -100,7 +100,7 @@ if __name__ == "__main__":
     print('\n\nconnect server')
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
-    TCP_IP = "ec2-3-36-119-109.ap-northeast-2.compute.amazonaws.com"
+    TCP_IP = "ec2-13-125-181-42.ap-northeast-2.compute.amazonaws.com"
     TCP_PORT_pose = 4242
 
     # 송신을 위한 socket 준비

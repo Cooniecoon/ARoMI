@@ -13,7 +13,7 @@ with open('message_code.json', 'r') as f:
 print('message code : ',messages)
 
 # camera
-TCP_IP = "ec2-3-36-119-109.ap-northeast-2.compute.amazonaws.com"
+TCP_IP = "ec2-13-125-181-42.ap-northeast-2.compute.amazonaws.com"
 TCP_PORT_img = 5555
 ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ssss.bind((TCP_IP, TCP_PORT_img))
