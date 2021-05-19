@@ -23,6 +23,12 @@ $ swig -python -c++ pafprocess.i
 $ python3 setup.py build_ext --inplace
 ```
 
+#### AWS CUDA 버전 설정
+```bash
+$ sudo rm /usr/local/cuda
+$ sudo ln -s /usr/local/cuda-11.0 /usr/local/cuda
+```
+
 ---
 ### TODO
 - [x] ~~Pose Data 수집 : Input data shape (18,2) -> (1,36)~~
