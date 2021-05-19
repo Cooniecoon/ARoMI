@@ -7,8 +7,13 @@
 사용자의 자세, 표정을 인식한 후 이를 기반으로 대화 유도
 
 ### Environment / Dependencies
+##### Robot
+- Lattepanda
 - Windows
 - Python 3.6
+
+##### AWS
+- Ubuntu 18.04
 - CUDA 11.1
 - cuDNN 8.0.5
 - TensorFlow 2.4
@@ -26,7 +31,7 @@ $ python3 setup.py build_ext --inplace
 #### AWS CUDA 버전 설정
 ```bash
 $ sudo rm /usr/local/cuda
-$ sudo ln -s /usr/local/cuda-11.0 /usr/local/cuda
+$ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 ```
 
 ---
