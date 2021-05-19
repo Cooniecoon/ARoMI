@@ -14,7 +14,9 @@ print('message code : ',messages)
 
 # camera
 with open('AWS_IP.txt', 'r') as f:
-    TCP_IP = f.readlines()
+    TCP_IP = f.readline()
+
+print(TCP_IP)
 TCP_PORT_img = 5555
 ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ssss.bind((TCP_IP, TCP_PORT_img))
@@ -50,8 +52,11 @@ print("image connected")
 while True:
     # 이미지 받아서 보내주기
     # cam -> img
+    print('1')
     img=recv_img_from(cam_client)
+    print('2')
     send_image_to(img,img_client,dsize=(432, 368))
+    print('3')
 
     a2b(pose_client,chatbot_client)
 

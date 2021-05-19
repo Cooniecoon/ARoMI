@@ -19,7 +19,7 @@ with open('message_code.json', 'r') as f:
     messages = json.load(f)
 
 with open('AWS_IP.txt', 'r') as f:
-    TCP_IP = f.readlines()
+    TCP_IP = f.readline()
 
 def get_face_crop_img(L_EAR_coordinate,R_EAR_coordinate,x_padding,y_padding,dsize):
     face_box_x=min(L_EAR_coordinate.x, R_EAR_coordinate.x)
@@ -81,9 +81,11 @@ BODY_PARTS={
 }
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
 class_id = {"sitting": 0, "standing": 1, "stretching": 2}
-Pose_classifier_path = "/home/ubuntu/ARoMI/models/classifier/model/pose_classification.weight"
+# Pose_classifier_path = "/home/ubuntu/ARoMI/models/classifier/model/pose_classification.weight"
+# FacER_model_path="/home/ubuntu/ARoMI/models/classifier/model/FacER.weight"
+Pose_classifier_path = "../models/classifier/model/pose_classification.weight"
+FacER_model_path="../models/classifier/model/FacER.weight"
 # FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
-FacER_model_path="/home/ubuntu/ARoMI/models/classifier/model/FacER.weight"
 
 if __name__ == "__main__":
 
