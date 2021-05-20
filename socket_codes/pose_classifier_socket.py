@@ -126,6 +126,7 @@ if __name__ == "__main__":
     while True:
 
         image = recv_img_from(sock_img)
+        print('image recived')
         original_img = image.copy()
 
         humans = e.inference(
@@ -200,7 +201,7 @@ if __name__ == "__main__":
 
                     # print('Eye Contact') #! Chatbot Litsening
                     sock_pose.send(messages['chatbot'].encode())
-                    # print('chatbot on')
+                    print('chatbot on')
                 
 
             elif ((not L_EAR_CHECK or not R_EAR_CHECK) and NOSE_CHECK):
@@ -210,15 +211,15 @@ if __name__ == "__main__":
                 time_0=time()
                 pass
 
-            sock_pose.send(messages['pass'].encode())
             image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
             # cv2.imshow("tf-pose-estimation result Filtered", image_single)
 
+        sock_pose.send(messages['pass'].encode())
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         # send_image_to(image_all,sock_pose,dsize=(432, 368))
-        # cv2.imshow("tf-pose-estimation result All", image_all)
+        cv2.imshow("tf-pose-estimation result All", image_all)
 
-        # if cv2.waitKey(1) == 27:
-        #     break
+        if cv2.waitKey(1) == 27:
+            break
 
     cv2.destroyAllWindows()
