@@ -22,13 +22,16 @@ sock_cam = socket.socket()
 sock_cam.connect((TCP_IP, TCP_PORT_img))
 print('connected')
 while True:
-    print('cam read')
-    _,img=cam.read()
-    cv2.imshow('cam',img)
-    send_image_to(img,sock_cam,dsize=(432, 368))
-    print('image send')
 
-    # img=recv_img_from(sock_cam)
-    cv2.imshow("tf-pose-estimation result All", img)
+    _,img=cam.read()
+    send_image_to(img,sock_cam,dsize=(432, 368))
+
+    img_body=recv_img_from(sock_cam)
+    # img_face=recv_img_from(sock_cam)
+
+
+    cv2.imshow('cam',img)
+    cv2.imshow("camera node pose result", img_body)
+    # cv2.imshow("camera node face result", img_face)
     if cv2.waitKey(1)==27:
         break
