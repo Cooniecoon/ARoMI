@@ -13,6 +13,7 @@
 - Python 3.6
 
 ##### AWS
+- AWS EC2
 - Ubuntu 18.04
 - CUDA 11.1
 - cuDNN 8.0.5
