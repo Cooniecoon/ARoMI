@@ -1,7 +1,7 @@
 import socket
 import cv2
 import numpy as np
-
+import time
 from socket_funcs import *
 
 with open('message_code.json', 'r') as f:
@@ -13,6 +13,7 @@ print('message code : ',messages)
 cam=cv2.VideoCapture(0)
 # cam.set(3,640)
 # cam.set(4,480)
+
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
 TCP_PORT_img = 5555
@@ -22,7 +23,7 @@ sock_cam = socket.socket()
 sock_cam.connect((TCP_IP, TCP_PORT_img))
 print('connected')
 while True:
-
+    t=time.time()
     _,img=cam.read()
     send_image_to(img,sock_cam,dsize=(432, 368))
 
@@ -33,5 +34,7 @@ while True:
     cv2.imshow('cam',img)
     cv2.imshow("camera node pose result", img_body)
     # cv2.imshow("camera node face result", img_face)
+    dt=time.time()-t
+    print(f'fps : {1/dt:.2f}')
     if cv2.waitKey(1)==27:
         break
