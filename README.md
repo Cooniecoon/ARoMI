@@ -8,7 +8,7 @@
 
 ### Environment / Dependencies
 ##### Robot
-- Lattepanda
+- LattePanda
 - Windows
 - Python 3.6
 
