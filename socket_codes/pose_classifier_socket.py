@@ -124,7 +124,7 @@ if __name__ == "__main__":
     THRESHOLD_TIME=2 #seconds
     print('\n\nstart\n\n')
     while True:
-
+        t=time()
         image = recv_img_from(sock_img)
 
         original_img = image.copy()
@@ -220,8 +220,9 @@ if __name__ == "__main__":
         send_image_to(image_all,sock_img,dsize=(432, 368))
         # send_image_to(face_box_forView,sock_pose,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)
-
-        if cv2.waitKey(1) == 27:
-            break
+        fps=1/(time()-t)
+        print(f'fps : {fps:.2f}')
+        # if cv2.waitKey(1) == 27:
+        #     break
 
     cv2.destroyAllWindows()

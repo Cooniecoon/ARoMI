@@ -1,0 +1,23 @@
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install gedit
+
+pip3 install -U setuptools pip
+
+
+pip3 install tensorflow-gpu==2.4
+pip3 install opencv-python==4.2.0.32
+pip3 install slidingwindow
+pip3 install git+https://github.com/adrianc-a/tf-slim.git@remove_contrib
+pip3 install pycocotools
+pip3 install tqdm
+pip3 install scipy==1.4.1
+
+sudo apt-get install swig
+
+sudo rm /usr/local/cuda
+sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
+
+cd ARoMI/tf_pose/pafprocess
+swig -python -c++ pafprocess.i
+python3 setup.py build_ext --inplace
