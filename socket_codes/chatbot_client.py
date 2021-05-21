@@ -66,5 +66,7 @@ while True:
         # print('eye contacted')
     elif msg.decode() == messages['pass']:
         continue
+
+    
     else:
         break
