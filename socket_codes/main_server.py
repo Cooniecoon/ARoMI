@@ -17,19 +17,19 @@ with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
 
 print(TCP_IP)
-TCP_PORT_img = 5555
-ssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ssss.bind((TCP_IP, TCP_PORT_img))
-ssss.listen(True)
-cam_client, addr = ssss.accept()
+TCP_PORT_cam = 5555
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_cam))
+s.listen(True)
+cam_client, addr = s.accept()
 print("camera connected")
 
 # chatbot
 TCP_PORT_chatbot = 2424
-sss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sss.bind((TCP_IP, TCP_PORT_chatbot))
-sss.listen(True)
-chatbot_client, addr = sss.accept()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_chatbot))
+s.listen(True)
+chatbot_client, addr = s.accept()
 print("chatbot connected")
 
 # pose
@@ -42,11 +42,29 @@ print("pose_classifier connected")
 
 # image
 TCP_PORT_img = 6666
-ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ss.bind((TCP_IP, TCP_PORT_img))
-ss.listen(True)
-img_client, addr = ss.accept()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_img))
+s.listen(True)
+img_client, addr = s.accept()
 print("image connected")
+
+# HEAD
+TCP_PORT_HEAD = 7777
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_HEAD))
+s.listen(True)
+head_client, addr = s.accept()
+print("Robot head connected")
+
+# # FacER
+# TCP_PORT_FacER = 4444
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.bind((TCP_IP, TCP_PORT_FacER))
+# s.listen(True)
+# FacER_client, addr = s.accept()
+# print("FacER connected")
+
+
 
 
 while True:
@@ -56,6 +74,10 @@ while True:
     img=recv_img_from(cam_client)
 
     send_image_to(img,img_client,dsize=(432, 368))
+
+    nose_xy=pose_client.recv(9)
+    print('asdfasdfasdf',nose_xy.decode())
+    head_client.send(nose_xy)
 
     a2b(pose_client,chatbot_client)
 

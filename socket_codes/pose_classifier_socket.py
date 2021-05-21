@@ -106,17 +106,11 @@ if __name__ == "__main__":
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
     TCP_PORT_pose = 4242
-
-    # 송신을 위한 socket 준비
     sock_pose = socket.socket()
     sock_pose.connect((TCP_IP, TCP_PORT_pose))
 
-    sleep(1)
-
     # 연결할 서버(수신단)의 ip주소와 port번호 : image
     TCP_PORT_img = 6666
-
-    # 송신을 위한 socket 준비
     sock_img = socket.socket()
     sock_img.connect((TCP_IP, TCP_PORT_img))
 
@@ -164,7 +158,18 @@ if __name__ == "__main__":
             R_EAR_CHECK=BODY_PARTS['REar'] in Body_Parts.keys()
             NOSE_CHECK=BODY_PARTS['Nose'] in Body_Parts.keys()
 
+            if NOSE_CHECK:
+                nose_x,nose_y=Body_Parts[BODY_PARTS['Nose']].x,Body_Parts[BODY_PARTS['Nose']].y
+                print(nose_x,nose_y)
+            else:
+                nose_x,nose_y=0.5, 0.5
             
+
+            x_str, y_str = "{0:0<4}".format(round(nose_x,2)),"{0:0<4}".format(round(nose_y,2))
+            msg=x_str+','+y_str
+            print('msg : ',msg)
+            sock_pose.send(msg.encode())
+
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
 
