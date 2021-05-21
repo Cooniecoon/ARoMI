@@ -48,8 +48,16 @@ s.listen(True)
 img_client, addr = s.accept()
 print("image connected")
 
+# nose
+TCP_PORT_nose = 7777
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_nose))
+s.listen(True)
+nose_client, addr = s.accept()
+print("nose connected")
+
 # HEAD
-TCP_PORT_HEAD = 7777
+TCP_PORT_HEAD = 8888
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_HEAD))
 s.listen(True)
@@ -75,9 +83,11 @@ while True:
 
     send_image_to(img,img_client,dsize=(432, 368))
 
-    nose_xy=pose_client.recv(9)
-    print('asdfasdfasdf',nose_xy.decode())
-    head_client.send(nose_xy)
+    # nose_xy=pose_client.recv(9)
+    # head_client.send(nose_xy)
+    nose_xy=recv_msg_from(nose_client)
+    print('nose_xy : ',nose_xy)
+    head_client.send(nose_xy.encode())
 
     a2b(pose_client,chatbot_client)
 

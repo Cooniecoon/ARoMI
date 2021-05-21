@@ -109,10 +109,17 @@ if __name__ == "__main__":
     sock_pose = socket.socket()
     sock_pose.connect((TCP_IP, TCP_PORT_pose))
 
+    sleep(1)
     # 연결할 서버(수신단)의 ip주소와 port번호 : image
     TCP_PORT_img = 6666
     sock_img = socket.socket()
     sock_img.connect((TCP_IP, TCP_PORT_img))
+
+    sleep(1)
+    # 연결할 서버(수신단)의 ip주소와 port번호 : nose
+    TCP_PORT_nose = 7777
+    sock_nose = socket.socket()
+    sock_nose.connect((TCP_IP, TCP_PORT_nose))
 
     time_0=time()
     THRESHOLD_TIME=2 #seconds
@@ -168,7 +175,8 @@ if __name__ == "__main__":
             x_str, y_str = "{0:0<4}".format(round(nose_x,2)),"{0:0<4}".format(round(nose_y,2))
             msg=x_str+','+y_str
             print('msg : ',msg)
-            sock_pose.send(msg.encode())
+            send_message_to(msg,sock_nose)
+            
 
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
