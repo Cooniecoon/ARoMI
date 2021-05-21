@@ -7,3 +7,4 @@ models/classifier/pose_data/standing
 aws/capstone_p2xlarge.pem
 aws/capstone_p2xlarge.ppk
 aws/ec2
+socket_codes/coon.jpg

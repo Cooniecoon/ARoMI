@@ -1,17 +1,7 @@
 import face_recognition
 import cv2
 import numpy as np
-
-# This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
-# other example, but it includes some basic performance tweaks to make things run a lot faster:
-#   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
-#   2. Only detect faces in every other frame of video.
-
-# PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
-# OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
-# specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
-
-# Get a reference to webcam #0 (the default one)
+import socket
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
@@ -32,6 +22,15 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
+
+TCP_PORT = 7777
+TCP_IP='127.0.0.1'
+
+sssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sssss.bind((TCP_IP, TCP_PORT))
+sssss.listen(True)
+neck_client, addr = sssss.accept()
+print('listening')
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -84,12 +83,22 @@ while True:
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-        print((left+right)//2, (top+bottom)//2)
+        h,w=frame.shape[0],frame.shape[1]
+        y,x=((top+bottom)/2)/h,((left+right)/2)/w
+        # print(round(x,2),round(y,2))
+        x_str, y_str = "{0:0<4}".format(round(x,2)),"{0:0<4}".format(round(y,2))
+        msg=x_str+','+y_str
+        neck_client.send(msg.encode())
+        print(msg, len(msg))
+
+
+        
 
     # Display the resulting image
     cv2.imshow('Video', frame)
     # Hit 'q' on the keyboard to quit!
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        neck_client.close()
         break
 
 # Release handle to the webcam
