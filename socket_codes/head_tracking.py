@@ -5,7 +5,7 @@ from socket_funcs import *
 
 # 송신을 위한 socket 준비
 TCP_PORT = 8888
-TCP_IP='ec2-3-34-2-20.ap-northeast-2.compute.amazonaws.com'
+TCP_IP='192.168.43.196'
 sock_neck = socket.socket()
 sock_neck.connect((TCP_IP, TCP_PORT))
 

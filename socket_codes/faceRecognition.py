@@ -2,7 +2,7 @@ import face_recognition
 import cv2
 import numpy as np
 import socket
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(1)
 
 # Load a sample picture and learn how to recognize it.
 obama_image = face_recognition.load_image_file("./coon.jpg")
@@ -23,14 +23,14 @@ face_names = []
 process_this_frame = True
 
 
-TCP_PORT = 7777
-TCP_IP='127.0.0.1'
+TCP_PORT = 8888
+TCP_IP='192.168.43.175'
+print('listening')
 
 sssss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sssss.bind((TCP_IP, TCP_PORT))
 sssss.listen(True)
 neck_client, addr = sssss.accept()
-print('listening')
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
