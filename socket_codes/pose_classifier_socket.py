@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     Pose_classifier = import_PoseClassifier(output_shape=len(class_id))
     Pose_classifier.load_weights(Pose_classifier_path)
-    
+
     print('\n\nPose_classifier Loaded')
     FacER_model=import_FacER()
     FacER_model.load_weights(FacER_model_path)
@@ -167,13 +167,13 @@ if __name__ == "__main__":
             NOSE_CHECK=BODY_PARTS['Nose'] in Body_Parts.keys()
 
             if NOSE_CHECK:
-                nose_x,nose_y=Body_Parts[BODY_PARTS['Nose']].x,Body_Parts[BODY_PARTS['Nose']].y
-                print(nose_x,nose_y)
+                nose_x=Body_Parts[BODY_PARTS['Nose']].x
+                print(nose_x)
             else:
-                nose_x,nose_y=0.5, 0.5
+                nose_x=0.5
             
 
-            msg = "{0:0<9}".format(round(nose_x,5))
+            msg = "{0:0<6}".format(nose_x)
             print('msg : ',msg)
             send_message_to(msg,sock_nose)
             

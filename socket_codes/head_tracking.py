@@ -12,11 +12,9 @@ sock_neck.connect((TCP_IP, TCP_PORT))
 
 print('connected')
 while True:
-    msg=sock_neck.recv(9)
+    msg=sock_neck.recv(6)
     print('msg : ',msg.decode())
-    x,y=msg.decode().split(',')
-    x,y=float(x),float(y)
-    print(f'x : {x},  y : {y}')
+    x=float(x)
     if msg == None:
         break
 

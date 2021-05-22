@@ -97,6 +97,3 @@ while True:
 
 
 s.close()
-ss.close()
-sss.close()
-ssss.close()
