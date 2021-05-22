@@ -12,26 +12,9 @@ with open('message_code.json', 'r') as f:
 # messages={'roger':'r', 'pass':'p','chatbot':'c','break':'b'}
 print('message code : ',messages)
 
-# camera
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
-
 print(TCP_IP)
-TCP_PORT_cam = 5555
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_cam))
-s.listen(True)
-cam_client, addr = s.accept()
-print("camera connected")
-
-# chatbot
-TCP_PORT_chatbot = 2424
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_chatbot))
-s.listen(True)
-chatbot_client, addr = s.accept()
-print("chatbot connected")
-
 # pose
 TCP_PORT_pose = 4242
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,6 +38,24 @@ s.bind((TCP_IP, TCP_PORT_nose))
 s.listen(True)
 nose_client, addr = s.accept()
 print("nose connected")
+
+# camera
+TCP_PORT_cam = 5555
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_cam))
+s.listen(True)
+cam_client, addr = s.accept()
+print("camera connected")
+
+# chatbot
+TCP_PORT_chatbot = 2424
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_chatbot))
+s.listen(True)
+chatbot_client, addr = s.accept()
+print("chatbot connected")
+
+
 
 # HEAD
 TCP_PORT_HEAD = 8888

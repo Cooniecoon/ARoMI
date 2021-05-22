@@ -91,13 +91,14 @@ if __name__ == "__main__":
 
     Pose_classifier = import_PoseClassifier(output_shape=len(class_id))
     Pose_classifier.load_weights(Pose_classifier_path)
+    
     print('\n\nPose_classifier Loaded')
     FacER_model=import_FacER()
     FacER_model.load_weights(FacER_model_path)
     print('\n\nFacER Loaded')
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
-        get_graph_path("mobilenet_thin"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
+        get_graph_path("mobilenet_v2_large"), # "mobilenet_thin", "mobilenet_v2_large", "mobilenet_v2_small"
         target_size=(w, h),
         trt_bool=False,
     )
@@ -172,8 +173,7 @@ if __name__ == "__main__":
                 nose_x,nose_y=0.5, 0.5
             
 
-            x_str, y_str = "{0:0<4}".format(round(nose_x,2)),"{0:0<4}".format(round(nose_y,2))
-            msg=x_str+','+y_str
+            msg = "{0:0<9}".format(round(nose_x,5))
             print('msg : ',msg)
             send_message_to(msg,sock_nose)
             
