@@ -38,7 +38,7 @@ def cali(source):
     return img
 
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 while True:
     _,img=cap.read()
