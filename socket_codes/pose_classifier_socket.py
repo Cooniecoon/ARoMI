@@ -129,7 +129,7 @@ if __name__ == "__main__":
     emotion_current='Neutral'
     pose='sitting'
 
-    THRESHOLD_TIME=2 #seconds
+    THRESHOLD_TIME=10 #seconds
     print('\n\nstart\n\n')
     while True:
         
@@ -176,15 +176,9 @@ if __name__ == "__main__":
             if NOSE_CHECK:
                 nose_x=Body_Parts[BODY_PARTS['Nose']].x
                 print(nose_x)
-            else:
-                nose_x=0.5
+            # else:
+            #     nose_x=0.5
             
-
-            # msg = "{0:0<9}".format(round(nose_x,4))
-            # print('msg : ',msg)
-            # send_message_to(msg,sock_nose)
-            
-
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
 
@@ -237,18 +231,18 @@ if __name__ == "__main__":
         sock_pose.send(messages['pass'].encode())
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
-        send_image_to(image_single,sock_img,dsize=(400, 300))
+        # send_image_to(image_single,sock_img,dsize=(200, 100))
         msg = "{0:0<9}".format(round(nose_x,4))
-        # print('msg : ',msg)
         send_message_to(msg,sock_nose)
 
         # send_image_to(face_box_forView,sock_pose,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)
         fps=1/(time()-t)
-        print(f'fps : {fps:.2f}')
 
+        print(f'fps : {fps:.2f}')
+        print('nose : ',msg)
         print('face emotion :',emotion_current)
-        print('user pose :',pose)
+        print('user pose :',pose,end='\n\n')
         # if cv2.waitKey(1) == 27:
         #     break
 

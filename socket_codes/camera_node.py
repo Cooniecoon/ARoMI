@@ -60,15 +60,13 @@ while True:
     t=time.time()
     _,img=cam.read()
     img=cali(img)
+
     send_image_to(img,sock_cam,dsize=(432, 368))
+    # img_body=recv_img_from(sock_cam)
+    # cv2.imshow("camera node pose result", img_body)
 
-    img_body=recv_img_from(sock_cam)
-    # img_face=recv_img_from(sock_cam)
+    # cv2.imshow('cam',img)
 
-
-    cv2.imshow('cam',img)
-    cv2.imshow("camera node pose result", img_body)
-    # cv2.imshow("camera node face result", img_face)
     dt=time.time()-t
     print(f'fps : {1/dt:.2f}')
     if cv2.waitKey(1)==27:

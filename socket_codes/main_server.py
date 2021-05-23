@@ -89,8 +89,8 @@ while True:
 
     a2b(pose_client,chatbot_client)
 
-    img=recv_img_from(img_client)
-    send_image_to(img,cam_client,dsize=(432, 368))
+    # img=recv_img_from(img_client)
+    # send_image_to(img,cam_client,dsize=(432, 368))
 
     nose_xy=recv_msg_from(nose_client)
     send_message_to(nose_xy,head_client)
