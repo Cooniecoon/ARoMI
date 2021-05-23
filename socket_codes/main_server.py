@@ -81,19 +81,19 @@ while True:
     # cam -> img
 
     img=recv_img_from(cam_client)
-
     send_image_to(img,img_client,dsize=(432, 368))
 
-    # nose_xy=pose_client.recv(9)
-    # head_client.send(nose_xy)
-    nose_xy=recv_msg_from(nose_client)
-    print('nose_xy : ',nose_xy)
-    head_client.send(nose_xy.encode())
+    # nose_xy=recv_msg_from(nose_client)
+    # print('nose_xy : ',nose_xy)
+    # send_message_to(nose_xy,head_client)
 
     a2b(pose_client,chatbot_client)
 
     img=recv_img_from(img_client)
     send_image_to(img,cam_client,dsize=(432, 368))
 
+    nose_xy=recv_msg_from(nose_client)
+    send_message_to(nose_xy,head_client)
+    # print('nose_xy : ',nose_xy)
 
 s.close()

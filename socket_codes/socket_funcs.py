@@ -49,19 +49,16 @@ def recv_img_from(sock):
     return image
 
 def send_message_to(msg,sock):
-    data_len = len(msg)
-    str_data_len = str(data_len).encode().ljust(16)
-    sock.send(str_data_len)
     sock.send(msg.encode())
     recv_check(sock)
 
 def recv_msg_from(sock):
-    newbuf = sock.recv(16)
-    length = newbuf.decode()
-    print('length :',length)
-    msg_data = recvall(sock, int(length))
+    msg = sock.recv(9)
+    # print('length :',len(msg))
+    msg_data=msg.decode()
+    sock.send(messages['roger'].encode())
     
-    return msg_data.decode()
+    return msg_data
 
 def recv_check(sock):
     while True:

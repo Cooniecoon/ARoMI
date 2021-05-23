@@ -123,9 +123,16 @@ if __name__ == "__main__":
     sock_nose.connect((TCP_IP, TCP_PORT_nose))
 
     time_0=time()
+
+    # default setting
+    nose_x=0.5
+    emotion_current='Neutral'
+    pose='sitting'
+
     THRESHOLD_TIME=2 #seconds
     print('\n\nstart\n\n')
     while True:
+        
         t=time()
         image = recv_img_from(sock_img)
 
@@ -173,9 +180,9 @@ if __name__ == "__main__":
                 nose_x=0.5
             
 
-            msg = "{0:0<6}".format(nose_x)
-            print('msg : ',msg)
-            send_message_to(msg,sock_nose)
+            # msg = "{0:0<9}".format(round(nose_x,4))
+            # print('msg : ',msg)
+            # send_message_to(msg,sock_nose)
             
 
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
@@ -202,11 +209,11 @@ if __name__ == "__main__":
                 maxindex = int(np.argmax(prediction))
                 emotion_current = emotion_id[maxindex] #! Face Emotion
 
-                face_box_forView=cv2.resize(face_box, (128,128), interpolation=cv2.INTER_AREA)
+                # face_box_forView=cv2.resize(face_box, (128,128), interpolation=cv2.INTER_AREA)
 
-                cv2.putText(face_box_forView, text=emotion_current, org=(15, 15), 
-                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
-                        color=(0, 255, 0), thickness=2)
+                # cv2.putText(face_box_forView, text=emotion_current, org=(15, 15), 
+                #         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
+                #         color=(0, 255, 0), thickness=2)
                 # cv2.imshow("Face Box", face_box_forView) #! face_box : input of FER
 
                 if dt > THRESHOLD_TIME:
@@ -230,11 +237,18 @@ if __name__ == "__main__":
         sock_pose.send(messages['pass'].encode())
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
-        send_image_to(image_all,sock_img,dsize=(432, 368))
+        send_image_to(image_single,sock_img,dsize=(400, 300))
+        msg = "{0:0<9}".format(round(nose_x,4))
+        # print('msg : ',msg)
+        send_message_to(msg,sock_nose)
+
         # send_image_to(face_box_forView,sock_pose,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)
         fps=1/(time()-t)
         print(f'fps : {fps:.2f}')
+
+        print('face emotion :',emotion_current)
+        print('user pose :',pose)
         # if cv2.waitKey(1) == 27:
         #     break
 
