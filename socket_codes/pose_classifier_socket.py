@@ -129,7 +129,7 @@ if __name__ == "__main__":
     emotion_current='Neutral'
     pose='sitting'
 
-    THRESHOLD_TIME=10 #seconds
+    THRESHOLD_TIME=2 #seconds
     print('\n\nstart\n\n')
     while True:
         
