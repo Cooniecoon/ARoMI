@@ -12,7 +12,8 @@ import chatbot.chatbot_dialog as chatbot
 
 with open('message_code.json', 'r') as f:
     messages = json.load(f)
-
+emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
+pose_id = {0:"sitting", 1:"standing", 2:"stretching"}
 
 
 def ChatBot(header, url, payload):
@@ -70,7 +71,9 @@ while True:
     pe_msg=pose_emotion.recv(4)
     pe_msg=pe_msg.decode()
     pe_msg=pe_msg.split(',')
-    print('pose, emotion :',pe_msg)
+    pose_idx=int(pe_msg[0])
+    emotion_idx=int(pe_msg[1])
+    print('pose, emotion :',pose_id[pose_idx],emotion_id[emotion_idx])
     if msg.decode() == messages['chatbot']:
         ChatBot(header, url, payload)
         print('eye contacted')
