@@ -61,8 +61,15 @@ TCP_PORT_chatbot = 7777
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_chatbot))
 s.listen(True)
-chatbot_client, addr = s.accept()
-print("chatbot connected")
+chatbot_eye, addr = s.accept()
+print("chatbot for eye check connected")
+
+TCP_PORT_chatbot = 9999
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_chatbot))
+s.listen(True)
+chatbot_clf, addr = s.accept()
+print("chatbot for pose,emotion connected")
 
 # HEAD
 TCP_PORT_HEAD = 8888
@@ -91,7 +98,7 @@ while True:
     # print('nose_xy : ',nose_xy)
     # send_message_to(nose_xy,head_client)
 
-    a2b(eyes_client,chatbot_client)
+    a2b(eyes_client,chatbot_eye)
 
     # img=recv_img_from(img_client)
     # send_image_to(img,cam_client,dsize=(432, 368))
@@ -100,7 +107,10 @@ while True:
     msgs=msgs.split(',')
     print(msgs)
     nose_xy=msgs[0]
+    pose_emotion=msgs[1]+','+msgs[2]+','
     send_message_to(nose_xy,head_client)
+    chatbot_clf.send(pose_emotion.encode())
+    
     # print('nose_xy : ',nose_xy)
 
 s.close()

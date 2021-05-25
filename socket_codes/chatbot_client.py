@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import socket
 import json
+from time import sleep
 
 from socket_funcs import *
 
@@ -49,8 +50,13 @@ with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
 
 TCP_PORT = 7777
-sock = socket.socket()
-sock.connect((TCP_IP, TCP_PORT))
+eye_checker = socket.socket()
+eye_checker.connect((TCP_IP, TCP_PORT))
+
+sleep(1)
+TCP_PORT = 9999
+pose_emotion = socket.socket()
+pose_emotion.connect((TCP_IP, TCP_PORT))
 
 print('connected')
 # Request 설정
@@ -60,12 +66,16 @@ r = sr.Recognizer()
 m = sr.Microphone()
 
 while True:
-    msg = sock.recv(1)
-    # msg=recv_msg_from(sock,buf_size=1)
+    msg = eye_checker.recv(1)
+    pe_msg=pose_emotion.recv(4)
+    pe_msg=pe_msg.decode()
+    pe_msg=pe_msg.split(',')
+    print('pose, emotion :',pe_msg)
     if msg.decode() == messages['chatbot']:
         ChatBot(header, url, payload)
-        # print('eye contacted')
+        print('eye contacted')
     elif msg.decode() == messages['pass']:
+        print('eye not contacted')
         continue
 
     
