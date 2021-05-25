@@ -15,46 +15,62 @@ print('message code : ',messages)
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
 print(TCP_IP)
-# pose
-TCP_PORT_pose = 4242
+# eye contact checker
+TCP_PORT_eyes = 1111
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_pose))
+s.bind((TCP_IP, TCP_PORT_eyes))
 s.listen(True)
-pose_client, addr = s.accept()
-print("pose_classifier connected")
+eyes_client, addr = s.accept()
+print("eye contact checker connected")
 
-# image
-TCP_PORT_img = 6666
+# image receiver
+TCP_PORT_img = 2222
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_img))
 s.listen(True)
 img_client, addr = s.accept()
-print("image connected")
+print("image  receiver connected")
 
-# nose
-TCP_PORT_nose = 7777
+# nose coordinate send
+TCP_PORT_nose = 3333
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_nose))
 s.listen(True)
 nose_client, addr = s.accept()
 print("nose connected")
 
-# camera
-TCP_PORT_cam = 5555
+# FacER
+TCP_PORT_FacER = 4444
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_FacER))
+s.listen(True)
+FacER_client, addr = s.accept()
+print("FacER connected")
+
+# pose
+TCP_PORT_pose = 5555
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_pose))
+s.listen(True)
+pose_client, addr = s.accept()
+print("pose classifier connected")
+
+# camera node
+TCP_PORT_cam = 6666
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_cam))
 s.listen(True)
 cam_client, addr = s.accept()
-print("camera connected")
+print("camera node connected")
+
 
 # chatbot
-TCP_PORT_chatbot = 2424
+TCP_PORT_chatbot = 7777
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT_chatbot))
 s.listen(True)
 chatbot_client, addr = s.accept()
 print("chatbot connected")
-
 
 
 # HEAD
@@ -65,17 +81,14 @@ s.listen(True)
 head_client, addr = s.accept()
 print("Robot head connected")
 
-# # FacER
-# TCP_PORT_FacER = 4444
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# s.bind((TCP_IP, TCP_PORT_FacER))
-# s.listen(True)
-# FacER_client, addr = s.accept()
-# print("FacER connected")
 
-
-
-
+'''
+h 행복
+s 슬픔
+n 중립
+d 일상
+b 인사
+'''
 while True:
     # 이미지 받아서 보내주기
     # cam -> img
@@ -87,7 +100,7 @@ while True:
     # print('nose_xy : ',nose_xy)
     # send_message_to(nose_xy,head_client)
 
-    a2b(pose_client,chatbot_client)
+    a2b(eyes_client,chatbot_client)
 
     # img=recv_img_from(img_client)
     # send_image_to(img,cam_client,dsize=(432, 368))

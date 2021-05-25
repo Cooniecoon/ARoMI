@@ -47,7 +47,7 @@ def ChatBot(header, url, payload):
 # 연결할 서버(수신단)의 ip주소와 port번호
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
-TCP_PORT = 2424
+TCP_PORT = 7777
 
 # 송신을 위한 socket 준비
 sock = socket.socket()

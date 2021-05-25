@@ -106,21 +106,33 @@ if __name__ == "__main__":
     print('\n\nconnect server')
 
     # 연결할 서버(수신단)의 ip주소와 port번호 : pose
-    TCP_PORT_pose = 4242
-    sock_pose = socket.socket()
-    sock_pose.connect((TCP_IP, TCP_PORT_pose))
+    TCP_PORT_eyes = 1111
+    sock_eyes = socket.socket()
+    sock_eyes.connect((TCP_IP, TCP_PORT_eyes))
 
     sleep(1)
     # 연결할 서버(수신단)의 ip주소와 port번호 : image
-    TCP_PORT_img = 6666
+    TCP_PORT_img = 2222
     sock_img = socket.socket()
     sock_img.connect((TCP_IP, TCP_PORT_img))
 
     sleep(1)
     # 연결할 서버(수신단)의 ip주소와 port번호 : nose
-    TCP_PORT_nose = 7777
+    TCP_PORT_nose = 3333
     sock_nose = socket.socket()
     sock_nose.connect((TCP_IP, TCP_PORT_nose))
+
+    sleep(1)
+    # 연결할 서버(수신단)의 ip주소와 port번호 : FacER
+    TCP_PORT_FacER = 4444
+    sock_FacER = socket.socket()
+    sock_FacER.connect((TCP_IP, TCP_PORT_FacER))
+
+    sleep(1)
+    # 연결할 서버(수신단)의 ip주소와 port번호 : pose
+    TCP_PORT_pose = 5555
+    sock_pose = socket.socket()
+    sock_pose.connect((TCP_IP, TCP_PORT_pose))
 
     time_0=time()
 
@@ -214,12 +226,12 @@ if __name__ == "__main__":
                     time_0=time()
 
                     # print('Eye Contact') #! Chatbot Litsening
-                    sock_pose.send(messages['chatbot'].encode())
+                    sock_eyes.send(messages['chatbot'].encode())
                     
                 
 
             elif ((not L_EAR_CHECK or not R_EAR_CHECK) and NOSE_CHECK):
-                # sock_pose.send(messages['pass'].encode())
+                # sock_eyes.send(messages['pass'].encode())
                 # print('Look Elsewhere')
                 # print('chatbot off')
                 time_0=time()
@@ -228,14 +240,14 @@ if __name__ == "__main__":
             image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
             # cv2.imshow("tf-pose-estimation result Filtered", image_single)
 
-        sock_pose.send(messages['pass'].encode())
+        sock_eyes.send(messages['pass'].encode())
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         # send_image_to(image_single,sock_img,dsize=(200, 100))
         msg = "{0:0<9}".format(round(nose_x,4))
         send_message_to(msg,sock_nose)
 
-        # send_image_to(face_box_forView,sock_pose,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
+        # send_image_to(face_box_forView,sock_eyes,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)
         fps=1/(time()-t)
 

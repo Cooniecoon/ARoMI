@@ -50,7 +50,7 @@ cam=cv2.VideoCapture(0)
 
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
-TCP_PORT_img = 5555
+TCP_PORT_img = 6666
 
 # 송신을 위한 socket 준비
 sock_cam = socket.socket()
