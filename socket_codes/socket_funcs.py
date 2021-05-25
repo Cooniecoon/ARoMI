@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import socket
+# import socket
 import json
 
 
@@ -9,6 +9,7 @@ def get_message_codes():
         messages = json.load(f)
     return messages
 messages=get_message_codes()
+
 
 # socket 수신 버퍼를 읽어서 반환하는 함수
 def recvall(sock, count):
@@ -22,6 +23,7 @@ def recvall(sock, count):
     msg=messages['roger']
     sock.send(msg.encode())
     return buf
+
 
 def send_image_to(img,sock,dsize):
     img=cv2.resize(img, dsize, interpolation=cv2.INTER_AREA)
@@ -40,6 +42,7 @@ def send_image_to(img,sock,dsize):
     sock.send(stringData)
     recv_check(sock)
 
+
 def recv_img_from(sock):
     newbuf = sock.recv(16)
     length = newbuf.decode()
@@ -48,17 +51,19 @@ def recv_img_from(sock):
     image = cv2.imdecode(data, 1)
     return image
 
+
 def send_message_to(msg,sock):
     sock.send(msg.encode())
     recv_check(sock)
 
-def recv_msg_from(sock):
-    msg = sock.recv(9)
+
+def recv_msg_from(sock,buf_size=16):
+    msg = sock.recv(buf_size)
     # print('length :',len(msg))
     msg_data=msg.decode()
-    sock.send(messages['roger'].encode())
-    
+    sock.send(messages['roger'].encode()) 
     return msg_data
+
 
 def recv_check(sock):
     while True:
@@ -66,10 +71,13 @@ def recv_check(sock):
         if msg==messages['roger']:
             break
 
+
 def a2b(a,b):
     msg=a.recv(1)
+    # msg=recv_msg_from(a,buf_size=1)
     if msg.decode()==messages['chatbot']:
         b.send(msg)
     else:
+        # msg=messages['pass']
+        # send_message_to(b,msg)
         b.send(messages['pass'].encode())
-

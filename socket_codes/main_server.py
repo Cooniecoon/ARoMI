@@ -31,29 +31,21 @@ s.listen(True)
 img_client, addr = s.accept()
 print("image  receiver connected")
 
-# nose coordinate send
-TCP_PORT_nose = 3333
+# classifier
+TCP_PORT_classifier = 4444
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_nose))
+s.bind((TCP_IP, TCP_PORT_classifier))
 s.listen(True)
-nose_client, addr = s.accept()
-print("nose connected")
+classifier_client, addr = s.accept()
+print("classifier connected")
 
-# FacER
-TCP_PORT_FacER = 4444
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_FacER))
-s.listen(True)
-FacER_client, addr = s.accept()
-print("FacER connected")
-
-# pose
-TCP_PORT_pose = 5555
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_pose))
-s.listen(True)
-pose_client, addr = s.accept()
-print("pose classifier connected")
+# # pose
+# TCP_PORT_pose = 5555
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.bind((TCP_IP, TCP_PORT_pose))
+# s.listen(True)
+# pose_client, addr = s.accept()
+# print("pose classifier connected")
 
 # camera node
 TCP_PORT_cam = 6666
@@ -71,7 +63,6 @@ s.bind((TCP_IP, TCP_PORT_chatbot))
 s.listen(True)
 chatbot_client, addr = s.accept()
 print("chatbot connected")
-
 
 # HEAD
 TCP_PORT_HEAD = 8888
@@ -96,7 +87,7 @@ while True:
     img=recv_img_from(cam_client)
     send_image_to(img,img_client,dsize=(432, 368))
 
-    # nose_xy=recv_msg_from(nose_client)
+    # nose_xy=recv_msg_from(classifier_client)
     # print('nose_xy : ',nose_xy)
     # send_message_to(nose_xy,head_client)
 
@@ -105,7 +96,10 @@ while True:
     # img=recv_img_from(img_client)
     # send_image_to(img,cam_client,dsize=(432, 368))
 
-    nose_xy=recv_msg_from(nose_client)
+    msgs=recv_msg_from(classifier_client)
+    msgs=msgs.split(',')
+    print(msgs)
+    nose_xy=msgs[0]
     send_message_to(nose_xy,head_client)
     # print('nose_xy : ',nose_xy)
 

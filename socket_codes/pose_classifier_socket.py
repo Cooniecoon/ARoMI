@@ -80,7 +80,7 @@ BODY_PARTS={
     'Background' : 18
 }
 emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
-class_id = {"sitting": 0, "standing": 1, "stretching": 2}
+pose_id = {0:"sitting", 1:"standing", 2:"stretching"}
 # Pose_classifier_path = "/home/ubuntu/ARoMI/models/classifier/model/pose_classification.weight"
 # FacER_model_path="/home/ubuntu/ARoMI/models/classifier/model/FacER.weight"
 Pose_classifier_path = "../models/classifier/model/pose_classification.weight"
@@ -89,7 +89,7 @@ FacER_model_path="../models/classifier/model/FacER.weight"
 
 if __name__ == "__main__":
 
-    Pose_classifier = import_PoseClassifier(output_shape=len(class_id))
+    Pose_classifier = import_PoseClassifier(output_shape=len(pose_id))
     Pose_classifier.load_weights(Pose_classifier_path)
 
     print('\n\nPose_classifier Loaded')
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     
     print('\n\nconnect server')
 
-    # 연결할 서버(수신단)의 ip주소와 port번호 : pose
+    # 연결할 서버(수신단)의 ip주소와 port번호 : eyes
     TCP_PORT_eyes = 1111
     sock_eyes = socket.socket()
     sock_eyes.connect((TCP_IP, TCP_PORT_eyes))
@@ -117,29 +117,25 @@ if __name__ == "__main__":
     sock_img.connect((TCP_IP, TCP_PORT_img))
 
     sleep(1)
-    # 연결할 서버(수신단)의 ip주소와 port번호 : nose
-    TCP_PORT_nose = 3333
-    sock_nose = socket.socket()
-    sock_nose.connect((TCP_IP, TCP_PORT_nose))
+    # 연결할 서버(수신단)의 ip주소와 port번호 : classifier
+    TCP_PORT_classifier = 4444
+    sock_classifier = socket.socket()
+    sock_classifier.connect((TCP_IP, TCP_PORT_classifier))
 
-    sleep(1)
-    # 연결할 서버(수신단)의 ip주소와 port번호 : FacER
-    TCP_PORT_FacER = 4444
-    sock_FacER = socket.socket()
-    sock_FacER.connect((TCP_IP, TCP_PORT_FacER))
-
-    sleep(1)
-    # 연결할 서버(수신단)의 ip주소와 port번호 : pose
-    TCP_PORT_pose = 5555
-    sock_pose = socket.socket()
-    sock_pose.connect((TCP_IP, TCP_PORT_pose))
+    # sleep(1)
+    # # 연결할 서버(수신단)의 ip주소와 port번호 : pose
+    # TCP_PORT_pose = 5555
+    # sock_pose = socket.socket()
+    # sock_pose.connect((TCP_IP, TCP_PORT_pose))
 
     time_0=time()
 
     # default setting
     nose_x=0.5
-    emotion_current='Neutral'
+    emotion='Neutral'
+    emotion_idx=1
     pose='sitting'
+    pose_idx=0
 
     THRESHOLD_TIME=2 #seconds
     print('\n\nstart\n\n')
@@ -170,16 +166,19 @@ if __name__ == "__main__":
 
             x_data = get_pose_vector(User)
 
-
             # print(x_data.reshape(1,x_data.shape[0], x_data.shape[1],1))
             preds = Pose_classifier.predict(
                         np.reshape(x_data,(1,36))
                     ) #! pose classification
-            pose=list(class_id.keys())[np.argmax(preds[0])] #! pose
+            pose_idx = int(np.argmax(preds))
+            
+            pose = pose_id[pose_idx]#! pose
+
+            # pose=list(class_id.keys())[np.argmax(preds[0])] 
+
             cv2.putText(image, text=pose, org=(30, 30), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(255, 255, 0), thickness=2)
-
 
             L_EAR_CHECK=BODY_PARTS['LEar'] in Body_Parts.keys()
             R_EAR_CHECK=BODY_PARTS['REar'] in Body_Parts.keys()
@@ -188,36 +187,34 @@ if __name__ == "__main__":
             if NOSE_CHECK:
                 nose_x=Body_Parts[BODY_PARTS['Nose']].x
                 print(nose_x)
-            # else:
-            #     nose_x=0.5
             
             if (L_EAR_CHECK and R_EAR_CHECK and NOSE_CHECK):
                 dt=time()-time_0
 
-                # print('eye_contact_time : {0:.2f}'.format(dt))
                 cv2.putText(image, text="eye contacted, time : {0:.2f} sec".format(dt), org=(30, 70), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                         color=(0, 0, 0), thickness=2)
 
-
                 # get face image
                 L_EAR_coordinate=Body_Parts[BODY_PARTS['LEar']]
                 R_EAR_coordinate=Body_Parts[BODY_PARTS['REar']]
+
                 face_box=get_face_crop_img(
                     L_EAR_coordinate, R_EAR_coordinate,
                     x_padding=15, y_padding=10,
                     dsize=(48,48)
                     )
+
                 # face_box=tf.image.grayscale_to_rgb(face_box, name=None)
                 input_face_box=np.expand_dims(np.expand_dims(face_box, -1), 0)
 
                 prediction = FacER_model.predict(input_face_box)
-                maxindex = int(np.argmax(prediction))
-                emotion_current = emotion_id[maxindex] #! Face Emotion
+                emotion_idx = int(np.argmax(prediction))
+                emotion = emotion_id[emotion_idx] #! Face Emotion
 
                 # face_box_forView=cv2.resize(face_box, (128,128), interpolation=cv2.INTER_AREA)
 
-                # cv2.putText(face_box_forView, text=emotion_current, org=(15, 15), 
+                # cv2.putText(face_box_forView, text=emotion, org=(15, 15), 
                 #         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.7, 
                 #         color=(0, 255, 0), thickness=2)
                 # cv2.imshow("Face Box", face_box_forView) #! face_box : input of FER
@@ -244,17 +241,20 @@ if __name__ == "__main__":
         image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         # send_image_to(image_single,sock_img,dsize=(200, 100))
-        msg = "{0:0<9}".format(round(nose_x,4))
-        send_message_to(msg,sock_nose)
+        msg = "{0:0<6}".format(round(nose_x,4))
+        msg =msg+','+str(pose_idx)+','+str(emotion_idx)
+        print('msg :',msg, '  len :',len(msg))
+        send_message_to(msg,sock_classifier)
 
         # send_image_to(face_box_forView,sock_eyes,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)
+
         fps=1/(time()-t)
 
         print(f'fps : {fps:.2f}')
-        print('nose : ',msg)
-        print('face emotion :',emotion_current)
-        print('user pose :',pose,end='\n\n')
+        print('message : ',msg)
+        print('face emotion :',emotion, '  idx :',emotion_idx)
+        print('user pose :',pose,'  idx :',pose_idx,end='\n\n')
         # if cv2.waitKey(1) == 27:
         #     break
 

@@ -47,12 +47,12 @@ def ChatBot(header, url, payload):
 # 연결할 서버(수신단)의 ip주소와 port번호
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
-TCP_PORT = 7777
 
-# 송신을 위한 socket 준비
+TCP_PORT = 7777
 sock = socket.socket()
 sock.connect((TCP_IP, TCP_PORT))
 
+print('connected')
 # Request 설정
 header, url, payload = chatbot.set_header()
 
@@ -61,6 +61,7 @@ m = sr.Microphone()
 
 while True:
     msg = sock.recv(1)
+    # msg=recv_msg_from(sock,buf_size=1)
     if msg.decode() == messages['chatbot']:
         ChatBot(header, url, payload)
         # print('eye contacted')
