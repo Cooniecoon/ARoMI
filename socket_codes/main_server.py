@@ -80,6 +80,14 @@ s.listen(True)
 head_client, addr = s.accept()
 print("Robot head connected")
 
+# motion
+TCP_PORT_motion = 1234
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT_motion))
+s.listen(True)
+motion_client, addr = s.accept()
+print("Motion connected")
+
 # display
 TCP_PORT_display = 3333
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -116,5 +124,6 @@ while True:
 
     # send_message_to(flag,display_client)
     display_client.send(flag)
+    motion_client.send(flag)
 
 s.close()
