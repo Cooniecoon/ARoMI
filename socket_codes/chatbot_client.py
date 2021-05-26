@@ -69,11 +69,18 @@ m = sr.Microphone()
 while True:
     msg = eye_checker.recv(1)
     pe_msg=pose_emotion.recv(4)
+
     pe_msg=pe_msg.decode()
     pe_msg=pe_msg.split(',')
+
     pose_idx=int(pe_msg[0])
     emotion_idx=int(pe_msg[1])
-    print('pose, emotion :',pose_id[pose_idx],emotion_id[emotion_idx])
+
+    pose=pose_id[pose_idx]
+    emotion=emotion_id[emotion_idx]
+
+    print('pose, emotion :',pose,emotion)
+    
     if msg.decode() == messages['chatbot']:
         ChatBot(header, url, payload)
         print('eye contacted')

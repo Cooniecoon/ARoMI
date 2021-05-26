@@ -13,13 +13,13 @@ sock_neck.connect((TCP_IP, TCP_PORT))
 
 print('connected')
 while True:
-    # msg=sock_neck.recv(6)
     msg=recv_msg_from(sock_neck)
     print('msg : ',msg)
+
     if msg != '':
         x=float(msg)
         print('x : ',x)
-    if msg == None:
+    elif msg == '':
         break
 
 sock_neck.close()
