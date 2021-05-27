@@ -15,7 +15,7 @@ print('message code : ',messages)
 with open('AWS_IP.txt', 'r') as f:
     TCP_IP = f.readline()
 print(TCP_IP)
-
+t = 0
 # eye contact checker
 TCP_PORT_eyes = 1111
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,13 +88,13 @@ s.listen(True)
 motion_client, addr = s.accept()
 print("Motion connected")
 
-# display
-TCP_PORT_display = 3333
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT_display))
-s.listen(True)
-display_client, addr = s.accept()
-print("display connected")
+# # display
+# TCP_PORT_display = 3333
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.bind((TCP_IP, TCP_PORT_display))
+# s.listen(True)
+# display_client, addr = s.accept()
+# print("display connected")
 
 while True:
     # 이미지 받아서 보내주기
@@ -115,7 +115,8 @@ while True:
     nose_xy=msgs[0]
     pose_emotion=msgs[1]+','+msgs[2]+','
 
-    send_message_to(nose_xy,head_client)
+    # send_message_to(nose_xy,head_client)
+    head_client.send(nose_xy.encode())
     chatbot_clf.send(pose_emotion.encode())
 
     # flag=recv_msg_from(chatbot_flag)
@@ -123,7 +124,7 @@ while True:
     print('flag :',flag.decode())
 
     # send_message_to(flag,display_client)
-    display_client.send(flag)
+    # display_client.send(flag)
     motion_client.send(flag)
 
 s.close()
