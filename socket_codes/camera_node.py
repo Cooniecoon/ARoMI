@@ -62,12 +62,16 @@ while True:
     img=cali(img)
 
     send_image_to(img,sock_cam,dsize=(432, 368))
-    # img_body=recv_img_from(sock_cam)
-    # cv2.imshow("camera node pose result", img_body)
+    img_person=recv_img_from(sock_cam)
+    cv2.imshow("img_person", img_person)
+
+    # img_people=recv_img_from(sock_cam)
+    # cv2.imshow("img_people", img_people)
 
     # cv2.imshow('cam',img)
 
     dt=time.time()-t
     print(f'fps : {1/dt:.2f}')
     if cv2.waitKey(1)==27:
+        sock_cam.close()
         break

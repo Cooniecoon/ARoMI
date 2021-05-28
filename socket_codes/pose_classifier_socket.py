@@ -88,6 +88,9 @@ FacER_model_path="../models/classifier/model/FacER.weight"
 # FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
 
 if __name__ == "__main__":
+    fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+    out_person = cv2.VideoWriter('out_person_eyecontact.avi', fourcc, 15.0, (432, 368))
+    out_people = cv2.VideoWriter('eyecontact.avi', fourcc, 13.0, (432, 368))
 
     Pose_classifier = import_PoseClassifier(output_shape=len(pose_id))
     Pose_classifier.load_weights(Pose_classifier_path)
@@ -137,7 +140,7 @@ if __name__ == "__main__":
     pose='sitting'
     pose_idx=0
 
-    THRESHOLD_TIME=2 #seconds
+    THRESHOLD_TIME=3 #seconds
     print('\n\nstart\n\n')
     while True:
         
@@ -234,17 +237,20 @@ if __name__ == "__main__":
                 time_0=time()
                 pass
 
-            image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=False)
+            image_single = TfPoseEstimator.draw_humans(image, [User], imgcopy=True)
+            out_person.write(image_single)
             # cv2.imshow("tf-pose-estimation result Filtered", image_single)
 
         sock_eyes.send(messages['pass'].encode())
-        image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+        image_all = TfPoseEstimator.draw_humans(image, humans, imgcopy=True)
 
         # send_image_to(image_single,sock_img,dsize=(200, 100))
         msg = "{0:0<6}".format(round(nose_x,4))
         msg =msg+','+str(pose_idx)+','+str(emotion_idx)
         print('msg :',msg, '  len :',len(msg))
         send_message_to(msg,sock_classifier)
+        
+        out_people.write(image)
 
         # send_image_to(face_box_forView,sock_eyes,dsize=(face_box_forView.shape[1], face_box_forView.shape[0]))
         # cv2.imshow("tf-pose-estimation result All", image_all)

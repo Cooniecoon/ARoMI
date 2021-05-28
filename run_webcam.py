@@ -18,7 +18,7 @@ logger.addHandler(ch)
 
 fps_time = 0
 
-cam = cv2.VideoCapture(1)
+cam = cv2.VideoCapture(0)
 ret_val, image = cam.read()
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")

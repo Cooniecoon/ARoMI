@@ -5,7 +5,7 @@ from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.common import CocoPart
 
-from classifier.model import import_classifier
+from models.classifier.model import import_PoseClassifier,import_FacER
 
 
 cam = cv2.VideoCapture(0)
@@ -23,11 +23,22 @@ BODY_PARTS={
     'Background' : 18
 }
     
-classifier_path = "C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classifier\\model\\pose_classification.weight"
+# classifier_path = "C:\\Users\\jeongseokoon\\capstone\\tf-pose-estimation\\classifier\\model\\pose_classification.weight"
+emotion_id = {0: "Happy", 1: "Neutral", 2: "Sad"} 
+pose_id = {0:"sitting", 1:"standing", 2:"stretching"}
+# Pose_classifier_path = "/home/ubuntu/ARoMI/models/classifier/model/pose_classification.weight"
+# FacER_model_path="/home/ubuntu/ARoMI/models/classifier/model/FacER.weight"
+Pose_classifier_path = "./models/classifier/model/pose_classification.weight"
+FacER_model_path="./models/classifier/model/FacER.weight"
+# FacER_model_path="C:\\Users\\jeongseokoon\\projects\\ARoMI\\models\\classifier\\model\\MobileNet_V2_4.weight"
 
 if __name__ == "__main__":
-    classifier = import_classifier(output_shape=1)
-    classifier.load_weights(classifier_path)
+    Pose_classifier = import_PoseClassifier(output_shape=len(pose_id))
+    Pose_classifier.load_weights(Pose_classifier_path)
+
+    print('\n\nPose_classifier Loaded')
+    FacER_model=import_FacER()
+    FacER_model.load_weights(FacER_model_path)
     
     w, h = model_wh("432x368") # default=0x0, Recommends : 432x368 or 656x368 or 1312x736 "
     e = TfPoseEstimator(
@@ -58,8 +69,9 @@ if __name__ == "__main__":
                     x_data[i] = np.array([body_part.x, body_part.y], dtype=np.float16)
 
             # print(x_data.reshape(1,x_data.shape[0], x_data.shape[1],1))
-            preds = classifier.predict(
-                        x_data.reshape(1,x_data.shape[0], x_data.shape[1],1)
+            x_data = get_pose_vector(User)
+            preds = Pose_classifier.predict(
+                        np.reshape(x_data,(1,36))
                     ) #! pose classification
 
             if preds > 0.9:
