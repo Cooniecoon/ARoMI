@@ -40,7 +40,12 @@ $ python3 setup.py build_ext --inplace
 $ sudo rm /usr/local/cuda
 $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 ```
-## Software Architecture
+## Hardware
+<div align=center>
+<img width="100%" src="./img/hardware.png"/>
+</div>
+
+## Software
 <div align=center>
 <img width="100%" src="./img/software.png"/>
 </div>
