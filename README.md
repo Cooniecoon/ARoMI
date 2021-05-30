@@ -1,6 +1,6 @@
 # AI Robot Mate for Individual
 <div align=center>
-<img width="70%" src="./ARoMI_image.jpg"/>
+<img width="70%" src="./img/ARoMI_image.jpg"/>
 </div>
 YouTube Link : 
 [![Youtube Badge](https://img.shields.io/badge/Youtube-ff0000?style=flat-square&logo=youtube&link=https://www.youtube.com/c/kyleschool)](https://www.youtube.com/watch?v=1IyeR2p0NHo)
@@ -39,6 +39,11 @@ $ python3 setup.py build_ext --inplace
 $ sudo rm /usr/local/cuda
 $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 ```
+## Software Architecture
+<div align=center>
+<img width="100%" src="./img/software.png"/>
+</div>
+
 
 ---
 ## TODO
