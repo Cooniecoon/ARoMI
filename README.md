@@ -87,3 +87,12 @@ $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 - [x] ~~TTS Custom data 생성~~
 - [x] ~~TTS Custom data 학습~~
 - [x] ~~AWS 환경 설정, 업로드~~
+
+---
+
+# TEAM
+- 정석훈
+- 홍윤기
+- 최승범
+- 최효원
+- 안상현
