@@ -93,6 +93,6 @@ $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 # TEAM
 - [정석훈](https://github.com/Cooniecoon)
 - [홍윤기](https://github.com/Yoonki-Hong)
-- 최승범
-- 최효원
-- 안상현
+- [최승범](https://github.com/choisb818)
+- [최효원](https://github.com/chwoo120)
+- [안상현](https://github.com/as9962)
