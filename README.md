@@ -1,7 +1,7 @@
 # AI Robot Mate for Individual
 <img width="50%" src="./ARoMI_image.jpg"/>
 
-[![Video](https://www.youtube.com/watch?v=1IyeR2p0NHo/0.jpg)](https://www.youtube.com/watch?v=1IyeR2p0NHo) 
+[![YouTube Link]](https://www.youtube.com/watch?v=1IyeR2p0NHo) 
 
 ## Abstract
 
