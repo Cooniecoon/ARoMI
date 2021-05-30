@@ -1,6 +1,7 @@
 # AI Robot Mate for Individual
-<img width="50%" src="./ARoMI_image.jpg"/>
-
+<div align=center>
+<img width="70%" src="./ARoMI_image.jpg"/>
+</div>
 YouTube Link : 
 [![Youtube Badge](https://img.shields.io/badge/Youtube-ff0000?style=flat-square&logo=youtube&link=https://www.youtube.com/c/kyleschool)](https://www.youtube.com/watch?v=1IyeR2p0NHo)
 
