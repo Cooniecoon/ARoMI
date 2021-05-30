@@ -91,8 +91,8 @@ $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 ---
 
 # TEAM
-- 정석훈
-- 홍윤기
+- [정석훈](https://github.com/Cooniecoon)
+- [홍윤기](https://github.com/Yoonki-Hong)
 - 최승범
 - 최효원
 - 안상현
