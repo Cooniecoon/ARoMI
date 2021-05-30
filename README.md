@@ -1,4 +1,4 @@
-# AI Robot Mate for Individual
+# ARoMI : AI Robot Mate for Individual
 <div align=center>
 <img width="70%" src="./img/ARoMI_image.jpg"/>
 </div>
@@ -6,19 +6,34 @@
 
 *YouTube Link :* [![Youtube Badge](https://img.shields.io/badge/Youtube-ff0000?style=flat-square&logo=youtube&link=https://www.youtube.com/c/kyleschool)](https://www.youtube.com/watch?v=1IyeR2p0NHo)
 
+
+--- 
+
 ## Abstract
 
 ### 1인가구를 위한 소셜로봇
 
 사용자의 자세, 표정을 인식한 후 이를 기반으로 대화 유도
 
-### Environment / Dependencies
-##### Robot
+---
+
+## 주요 기능
+- 사용자의 자세(Human Pose)와 얼굴 감정(Facial Expression) 인식
+- TTS -> Chatbot -> TTS 을 통해 사용자와 대화 가능
+- 로봇과의 눈맞춤을 통해 챗봇 호출
+- 클라우드 컴퓨팅(AWS)을 통해 딥러닝 연산 -> 로봇 경량화 가능(GPU-free)
+- 다양한 모션과 제스쳐, 표정을 통해 사용자와 상호작용
+- 사용자 추척 (Camera Tracking)
+
+---
+
+## Environment / Dependencies
+#### Robot
 - LattePanda
-- Windows
+- Windows 10
 - Python 3.6
 
-##### AWS
+#### AWS
 - AWS EC2
 - Ubuntu 18.04
 - CUDA 11.1
@@ -40,10 +55,15 @@ $ python3 setup.py build_ext --inplace
 $ sudo rm /usr/local/cuda
 $ sudo ln -s /usr/local/cuda-11.1 /usr/local/cuda
 ```
+
+---
+
 ## Hardware
 <div align=center>
 <img width="100%" src="./img/hardware.png"/>
 </div>
+
+---
 
 ## Software
 <div align=center>
